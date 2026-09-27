@@ -161,38 +161,9 @@ import "../styles/chat.css";
   const ICONS: Record<Role, string> = {
     user: "",
 
-    assistant: `
-      <svg
-        class="w-4 h-4"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M12 3c.6 2.8 1.6 3.8 4.4 4.4-2.8.6-3.8 1.6-4.4 4.4-.6-2.8-1.6-3.8-4.4-4.4C10.4 6.8 11.4 5.8 12 3z"></path>
-        <path d="M18.5 14c.35 1.6.9 2.15 2.5 2.5-1.6.35-2.15.9-2.5 2.5-.35-1.6-.9-2.15-2.5-2.5 1.6-.35 2.15-1.6 2.5-2.5z"></path>
-      </svg>
-    `,
+    assistant: ``,
 
-    system: `
-      <svg
-        class="w-4 h-4"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <circle cx="12" cy="12" r="9"></circle>
-        <line x1="12" y1="8" x2="12" y2="8.01"></line>
-        <line x1="12" y1="11" x2="12" y2="16"></line>
-      </svg>
-    `,
+    system: ``,
   };
 
   function getElements(): Elements {
@@ -381,26 +352,10 @@ import "../styles/chat.css";
       wrapper.classList.add("flex-row-reverse", "ml-auto");
     }
 
-    const avatar = document.createElement("div");
-
-    avatar.className =
-      "shrink-0 w-7 h-7 rounded-lg border border-white/20 " +
-      "flex items-center justify-center text-white/70";
-
-    if (role === "user") {
-      avatar.classList.add("hidden");
-    }
-
-    if (role === "system") {
-      avatar.classList.add("text-[#858585]");
-    }
-
-    avatar.innerHTML = ICONS[role];
-
     const bubble = document.createElement("div");
 
     bubble.className =
-      "border border-white/10 rounded-[20px] p-3.5 px-4 " +
+      "message-bubble border border-white/10 rounded-[20px] p-3.5 px-4 " +
       "text-[14.5px] leading-relaxed max-w-[620px]";
 
     if (role === "user") {
@@ -428,7 +383,7 @@ import "../styles/chat.css";
     paragraph.innerHTML = renderText(content);
 
     bubble.appendChild(paragraph);
-    wrapper.append(avatar, bubble);
+    wrapper.append(bubble);
 
     return wrapper;
   }
@@ -508,7 +463,7 @@ import "../styles/chat.css";
 
       const bubble = assistantElement.querySelector("div:nth-child(2)");
 
-      const paragraph = bubble?.querySelector("p");
+      const paragraph = assistantElement.querySelector(".message-bubble p");
 
       if (!paragraph) {
         throw new Error("Impossible de créer la réponse du chatbot.");
