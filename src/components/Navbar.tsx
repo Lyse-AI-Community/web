@@ -115,10 +115,10 @@ export default function Navbar() {
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}equipe`}
+            href={`${import.meta.env.BASE_URL}contributors`}
             rel="noreferrer"
           >
-            Equipe
+            Contributeurs
           </Button>
 
           <Button
@@ -235,13 +235,13 @@ export default function Navbar() {
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}equipe`}
+            href={`${import.meta.env.BASE_URL}contributors`}
             rel="noreferrer"
             className="rounded-lg"
             target="_blank"
             onClick={closeMobileNavbar}
           >
-            Equipe
+            Contributeurs
           </Button>
 
           <Button
