@@ -19,8 +19,15 @@ const { Content } = await render(post);
   description={`${post.data.title}`}
 >
   <main
-    class="legal-page"
+    class="legal-page blog-article-page"
   >
+    <a
+      href={`${import.meta.env.BASE_URL}blog/`}
+      class="mb-8 inline-flex min-h-11 items-center gap-2 border border-white/20 px-4 text-sm text-white transition hover:border-[#e8ff9c]/60 hover:text-[#e8ff9c]"
+    >
+      <span aria-hidden="true">←</span>
+      Retourner au blog
+    </a>
     <h1 class="text-5xl">{post.data.title}</h1>
     <p class="mt-2">
       Publié le {post.data.pubDate.toLocaleDateString("fr-FR")}

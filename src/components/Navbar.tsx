@@ -115,15 +115,6 @@ export default function Navbar() {
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}equipe`}
-            rel="noreferrer"
-          >
-            Equipe
-          </Button>
-
-          <Button
-            variant="link"
-            size="lg"
             href={`${import.meta.env.BASE_URL}#faq`}
           >
             FAQ
@@ -230,18 +221,6 @@ export default function Navbar() {
             onClick={closeMobileNavbar}
           >
             Entraînement
-          </Button>
-
-          <Button
-            variant="link"
-            size="lg"
-            href={`${import.meta.env.BASE_URL}equipe`}
-            rel="noreferrer"
-            className="rounded-lg"
-            target="_blank"
-            onClick={closeMobileNavbar}
-          >
-            Equipe
           </Button>
 
           <Button
