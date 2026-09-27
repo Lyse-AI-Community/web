@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { motion, type Variants } from 'framer-motion';
 
 interface FAQItem {
   id: number;
@@ -50,46 +49,23 @@ export default function FAQ() {
     );
   };
 
-  const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.08,
-            },
-        },
-    };
-
-    const wordVariants: Variants = {
-        hidden: {
-            y: "10%",
-            opacity: 0,
-        },
-        visible: {
-            y: '0%',
-            opacity: 1,
-            transition: {
-                duration: 1,
-                ease: [0.2, 0.65, 0.3, 0.9],
-            },
-        },
-    };
-
   return (
     <div className="max-w-5xl mx-auto px-4">
-      <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start" initial="hidden"
-        whileInView="visible">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
         {FAQS.map((faq) => {
           const isOpen = openIds.includes(faq.id);
 
           return (
-            <motion.div
+            <div
               key={faq.id}
               className="border overflow-hidden transition-colors duration-200" style={{ borderColor: "rgba(255, 255, 255, 0.12)" }}
-              variants={wordVariants}
             >
               <button
+                id={`faq-question-${faq.id}`}
+                type="button"
                 onClick={() => toggleFAQ(faq.id)}
+                aria-expanded={isOpen}
+                aria-controls={`faq-answer-${faq.id}`}
                 className="w-full flex items-center justify-between p-4 text-left text-[16px] font-medium text-white gap-3 cursor-pointer select-none"
               >
                 <span>{faq.question}</span>
@@ -101,20 +77,20 @@ export default function FAQ() {
               </button>
 
               <div
-                className={`grid transition-[grid-template-rows] duration-300 ease-out ${
-                  isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-                }`}
+                id={`faq-answer-${faq.id}`}
+                role="region"
+                aria-labelledby={`faq-question-${faq.id}`}
+                hidden={!isOpen}
+                className="px-4 pb-4"
               >
-                <div className="overflow-hidden">
-                  <p className="p-4 pt-0 text-sm text-white/45 leading-relaxed mt-1">
-                    {faq.answer}
-                  </p>
-                </div>
+                <p className="text-sm text-white/45 leading-relaxed">
+                  {faq.answer}
+                </p>
               </div>
-            </motion.div>
+            </div>
           );
         })}
-      </motion.div>
+      </div>
     </div>
   );
 }
