@@ -40,29 +40,7 @@ export default function Navbar() {
             hover:opacity-80
           "
         >
-          <svg
-            className="h-6 w-6"
-            role="presentation"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5.65 10.849L.485 8.946C.194 8.839 0 8.561 0 8.25s.194-.589.485-.697L5.65 5.65 7.553.485C7.661.194 7.939 0 8.25 0s.589.194.697.485L10.849 5.65l5.165 1.903c.292.108.486.386.486.697s-.194.589-.486.697l-5.165 1.903-1.903 5.165c-.108.292-.386.485-.697.485s-.589-.193-.697-.485L5.65 10.849Z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              transform="translate(2.25 5.25)"
-            />
-
-            <path
-              d="M16.5 1.5v4.5M21 6.75v3M14.25 3.75h4.5M19.5 8.25h3"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
+          <img src={`${import.meta.env.BASE_URL}logo.png`} className="w-6 h-6" />
 
           <span
             className="
