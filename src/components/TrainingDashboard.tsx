@@ -4,24 +4,16 @@ import {
   Maximize2, 
   Minimize2, 
   Terminal, 
-  Clock, 
-  Cpu, 
+  Clock,
   Zap, 
-  CheckCircle2, 
   AlertCircle,
   Play,
   Pause,
-  Layers,
   TrendingDown,
   Activity,
   Hourglass
 } from "lucide-react";
 import Button from "./ui/Button";
-
-interface TrainingDashboardProps {
-  imageUrl?: string;
-  alt?: string;
-}
 
 interface TrainingStatus {
   timestamp: number;
@@ -33,7 +25,7 @@ interface TrainingStatus {
   eta: string;
 }
 
-export default function TrainingDashboard({ alt = "Training Status" }: TrainingDashboardProps) {
+export default function TrainingDashboard() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [timestamp, setTimestamp] = useState<number>(Date.now());
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -46,10 +38,6 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
   const [historyData, setHistoryData] = useState<TrainingStatus[]>([]);
   const [apiLoading, setApiLoading] = useState(false);
   const [dataError, setDataError] = useState(false);
-  const [logs, setLogs] = useState<string[]>([
-    "[INIT] Connexion au pipeline d'entraînement SparksLyse (status.json)...",
-    "[FETCH] Récupération des données en cours..."
-  ]);
 
   const fetchTrainingStatus = async () => {
     setApiLoading(true);
@@ -62,12 +50,6 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
           setHistoryData(data);
           const latest = data[data.length - 1];
           setStatusData(latest);
-          
-          const nowStr = new Date().toTimeString().split(' ')[0];
-          setLogs(prev => [
-            ...prev,
-            `[${nowStr}] [SYNC] Phase: ${latest.type} | Tokens: ${latest.epoch} | Loss: ${latest.loss} | TPS: ${latest.tps} | ETA: ${latest.eta}`
-          ]);
         } else {
           setDataError(true);
           setHistoryData([]);
@@ -83,11 +65,6 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
       setDataError(true);
       setHistoryData([]);
       setStatusData(null);
-      const nowStr = new Date().toTimeString().split(' ')[0];
-      setLogs(prev => [
-        ...prev,
-        `[${nowStr}] [ERROR] Impossible de joindre l'API (CORS / Réseau).`
-      ]);
     } finally {
       setApiLoading(false);
       setTimestamp(Date.now());
@@ -150,7 +127,6 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
     triggerRefresh();
   };
 
-  // Zoom in on the last 50 points of history for a clean, readable, non-spiky trend view
   const allLosses = historyData.map(d => Number(d.loss) || 0);
   const losses = allLosses.slice(-50);
   const minLoss = losses.length > 0 ? Math.min(...losses) : 0;
@@ -175,7 +151,6 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
       ref={containerRef}
       className={`w-full font-sans transition-all duration-300 ${isFullscreen ? "bg-[#0a0a0a] p-4 sm:p-8 overflow-y-auto flex flex-col h-screen" : ""}`}
     >
-      {/* Dashboard Top Bar & Controls */}
       <div className="mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <div className="relative flex h-2 w-2">
@@ -184,20 +159,18 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
           </div>
           <div>
             <h2 className="text-xl font-normal text-white flex items-center gap-3">
-              SparksLyse-v1
+              SparksLyse
               <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-white/80 border border-white/20">
                 {statusData ? statusData.type : (dataError ? "Erreur API" : "Actif")}
               </span>
             </h2>
             <p className="text-sm text-white/45 mt-1">
-              Télémétrie en direct via API (status.json)
+              Télémétrie en direct
             </p>
           </div>
         </div>
 
-        {/* Action Controls */}
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-          {/* Interval Selector */}
           <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs text-white/60">
             <Clock className="w-3.5 h-3.5 opacity-50" />
             <select 
@@ -215,7 +188,6 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
             </select>
           </div>
 
-          {/* Pause / Resume Auto-refresh */}
           <button
             onClick={() => setIsPaused(!isPaused)}
             className={`flex h-10 w-10 items-center justify-center rounded-full border transition-all ${
@@ -228,19 +200,17 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
             {isPaused ? <Play className="w-4 h-4 fill-current" /> : <Pause className="w-4 h-4 fill-current" />}
           </button>
 
-          {/* Manual Refresh Button */}
           <Button
             variant="primary"
             size="sm"
             onClick={handleManualRefresh}
             disabled={isRefreshing || apiLoading}
-            className="!min-h-10 px-5 bg-white text-black border-0 hover:opacity-90 font-medium"
+            className="min-h-10! px-5 bg-white text-black border-0 hover:opacity-90 font-medium"
           >
             <RefreshCw className={`w-3.5 h-3.5 mr-2 ${isRefreshing || apiLoading ? "animate-spin" : ""}`} />
             Actualiser
           </Button>
 
-          {/* Fullscreen Toggle */}
           <button
             onClick={toggleFullscreen}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white transition-all"
@@ -250,9 +220,7 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div className="flex flex-col gap-8">
-        {/* Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           <MetricBox 
             label="Loss (Perte)" 
@@ -280,7 +248,6 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
           />
         </div>
 
-        {/* Live Loss Curve Chart */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between px-2">
             <span className="text-[10px] uppercase tracking-[0.2em] text-white/45 font-medium">Évolution de la Perte (Loss) — Vue Récente (50 derniers points)</span>
@@ -296,32 +263,28 @@ export default function TrainingDashboard({ alt = "Training Status" }: TrainingD
               )}
             </div>
           </div>
-          
-          <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/2.5 backdrop-blur-sm p-6 flex flex-col items-center justify-center min-h-[360px]">
+          <div className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/2.5 backdrop-blur-sm p-6 flex flex-col items-center justify-center min-h-90">
             {apiLoading && losses.length === 0 ? (
               <div className="flex flex-col items-center text-center gap-4 py-20">
                 <RefreshCw className="w-6 h-6 text-white/40 animate-spin" />
-                <p className="text-xs text-white/40">Chargement des données depuis l'API...</p>
+                <p className="text-xs text-white/40">Chargement des données...</p>
               </div>
             ) : dataError || losses.length === 0 ? (
               <div className="flex flex-col items-center text-center gap-4 py-20 px-4 max-w-md">
                 <AlertCircle className="w-8 h-8 text-amber-400/80" />
                 <div>
-                  <p className="text-sm font-medium text-white mb-1">Impossible de charger les données depuis l'API</p>
+                  <p className="text-sm font-medium text-white mb-1">Impossible de charger les données</p>
                   <p className="text-xs text-white/50 leading-relaxed">
-                    Le serveur distant n'a pas renvoyé de données ou bloque la requête (CORS).
+                    Le serveur distant n'a pas renvoyé de données ou bloque la requête.
                   </p>
                 </div>
               </div>
             ) : (
               <div className="w-full flex flex-col items-center">
                 <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" className="w-full h-72 overflow-visible">
-                  {/* Clean readable grid lines */}
                   <line x1={paddingX} y1={paddingY} x2={width - paddingX} y2={paddingY} stroke="rgba(255,255,255,0.08)" strokeDasharray="4 4" />
                   <line x1={paddingX} y1={height / 2} x2={width - paddingX} y2={height / 2} stroke="rgba(255,255,255,0.08)" strokeDasharray="4 4" />
                   <line x1={paddingX} y1={height - paddingY} x2={width - paddingX} y2={height - paddingY} stroke="rgba(255,255,255,0.15)" />
-
-                  {/* Gradient fill under curve */}
                   <defs>
                     <linearGradient id="lossGradient" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="rgba(255, 255, 255, 0.25)" />
