@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirection...</title>
+    <noscript>
+      <meta http-equiv="refresh" content="0;url=/fr/" />
+    </noscript>
+
+    <script is:inline>
+      (function() {
+        var supportedLanguages = ['fr', 'en', 'es'];
+        var defaultLang = 'fr';
+
+        var userLang = (navigator.language || navigator.userLanguage || '').split('-')[0].toLowerCase();
+
+        var targetLang = supportedLanguages.indexOf(userLang) !== -1 ? userLang : defaultLang;
+
+        window.location.replace('/' + targetLang + '/');
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirection vers votre langue en cours...</p>
+  </body>
+</html>
