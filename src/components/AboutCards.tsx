@@ -4,29 +4,28 @@ import type { ImageMetadata } from "astro";
 import aboutImage1 from "../assets/images/about1.jpg";
 import aboutImage2 from "../assets/images/about2.jpg";
 import aboutImage3 from "../assets/images/about3.jpg";
+import { useTranslations, type Lang } from "@/i18n/ui";
 
-export default function AboutCards() {
+export default function AboutCards({ lang }: { lang: Lang }) {
+  const t = useTranslations(lang);
   const about: {
     title: string;
     description: string;
     image: ImageMetadata;
   }[] = [
     {
-      title: "Le temps s'est déroulé",
-      description:
-        "Automatisez vos tâches et gagnez du temps : votre assistant IA transforme les tâches routinières en quelques secondes pour que vous puissiez vous concentrer sur votre croissance.",
+      title: t("comp_about.about1"),
+      description: t("comp_about.about1Text"),
       image: aboutImage1,
     },
     {
-      title: "Des mots qui coulent",
-      description:
-        "Brouillons, articles de blog et courriels rédigés avec clarté et rapidité — l'élégance du langage sans la difficulté.",
+      title: t("comp_about.about2"),
+      description: t("comp_about.about2Text"),
       image: aboutImage2,
     },
     {
-      title: "Un guide silencieux",
-      description:
-        "Toujours présents pour vous aider à rester concentré – suggestions, rappels et idées au moment précis où vous en avez besoin.",
+      title: t("comp_about.about3"),
+      description: t("comp_about.about3Text"),
       image: aboutImage3,
     },
   ];
@@ -79,9 +78,9 @@ export default function AboutCards() {
         lg:gap-6
       "
     >
-      {about.map((ab) => (
+      {about.map((ab, idx) => (
         <motion.article
-          key={ab.title}
+          key={idx}
           variants={wordVariants}
           className="
             min-w-0

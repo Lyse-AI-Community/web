@@ -5,31 +5,33 @@ import featureImage1 from "../assets/images/feature1.jpg";
 import featureImage2 from "../assets/images/feature2.jpg";
 import featureImage3 from "../assets/images/feature3.jpg";
 import featureImage4 from "../assets/images/feature4.jpg";
+import { useTranslations, type Lang } from "@/i18n/ui";
 
-export default function FeatureSlider() {
+export default function FeatureSlider({ lang }: { lang: Lang }) {
+  const t = useTranslations(lang);
   const features: {
     title: string;
     description: string;
     image: ImageMetadata;
   }[] = [
     {
-      title: "Création de contenu",
-      description: "Demandez-lui des stories, posts, et idées",
+      title: t("comp_feature.features1Title"),
+      description: t("comp_feature.features1Desc"),
       image: featureImage1,
     },
     {
-      title: "Aide au codage",
-      description: "Résolvez les problèmes de votre code",
+      title: t("comp_feature.features2Title"),
+      description: t("comp_feature.features2Desc"),
       image: featureImage2,
     },
     {
-      title: "Recherche",
-      description: "Recherchez les infos importantes",
+      title: t("comp_feature.features3Title"),
+      description: t("comp_feature.features3Desc"),
       image: featureImage3,
     },
     {
-      title: "Productivité",
-      description: "Restez concentré avec votre assistant",
+      title: t("comp_feature.features4Title"),
+      description: t("comp_feature.features4Desc"),
       image: featureImage4,
     },
   ];

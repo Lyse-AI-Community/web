@@ -32,47 +32,41 @@ const t = useTranslations(lang);
 
 const benefits: { title: string; description: string; logo: number }[] = [
   {
-    title: "le temps est inversé",
-    description:
-      "Automatisez les tâches routinières et libérez du temps facilement.",
+    title: t("comp_benefits.benefits1"),
+    description: t("comp_benefits.benefits1Text"),
     logo: 0,
   },
   {
-    title: "Des mots en toute simplicité",
-    description:
-      "Transformez vos idées en écrits soignés — clairs, naturels et rapides.",
+    title: t("comp_benefits.benefits2"),
+    description: t("comp_benefits.benefits2Text"),
     logo: 1,
   },
   {
-    title: "Mise au point guidée",
-    description:
-      "Restez concentré grâce à des incitations douces qui éloignent les distractions.",
+    title: t("comp_benefits.benefits3"),
+    description: t("comp_benefits.benefits3Text"),
     logo: 2,
   },
   {
-    title: "Connaissance instantanée",
-    description:
-      "Condensez vos recherches et vos analyses en informations claires.",
+    title: t("comp_benefits.benefits4"),
+    description: t("comp_benefits.benefits4Text"),
     logo: 3,
   },
   {
-    title: " Toujours disponible",
-    description:
-      "Votre partenaire discret, prêt à vous aider dès que vous en avez besoin.",
+    title: t("comp_benefits.benefits5"),
+    description: t("comp_benefits.benefits5Text"),
     logo: 4,
   },
   {
-    title: "Confiance intégrée",
-    description:
-      "Protection dès la conception — vos données, vos idées, toujours en sécurité.",
+    title: t("comp_benefits.benefits6"),
+    description: t("comp_benefits.benefits6Text"),
     logo: 5,
   },
 ];
 ---
 
 <Layout
-  title="SparksLyse, l'IA Open-Source"
-  description="Quand l'IA rencontre l'Open-Source"
+  title={t("index.title")}
+  description={t("index.desc")}
 >
   <main>
     <header
@@ -85,13 +79,13 @@ const benefits: { title: string; description: string; logo: number }[] = [
         <div class="flex w-full flex-col items-center gap-4">
           <FadeInBlurWord
             as="h2"
-            content={[{ text: "Certaines informations sur ce site sont fausses/partiellement fausses ou sont prévues pour le futur" }]}
+            content={[{ text: t("index.warning") }]}
             className="font-[Monospace] bg-[#0a0a0a]/20 border border-[#0a0a0a]/40 rounded-2xl p-4 justify-center text-[10px] font-normal leading-[1.2] tracking-[-0.03em] text-white sm:text-[18px] lg:text-[16px] text-center"
             client:load
           />
           <FadeInBlurWord
             as="h1"
-            content={[{ text: "Quand l'IA rencontre l'Open-Source" }]}
+            content={[{ text: t("index.desc") }]}
             className="font-sans justify-center text-[40px] rounded-2xl p-4 font-normal leading-[1.2] tracking-[-0.03em] text-white sm:text-[48px] lg:text-[56px] text-center"
             client:load
           />
@@ -99,7 +93,7 @@ const benefits: { title: string; description: string; logo: number }[] = [
             as="p"
             content={[
               {
-                text: "Une IA open-source pour vous aider à y voir plus clair",
+                text: t("index.mainDesc"),
               },
             ]}
             className="text-center text-sm leading-[1.3] text-white/90 sm:text-base"
@@ -107,13 +101,13 @@ const benefits: { title: string; description: string; logo: number }[] = [
           />
         </div>
 
-        <Button variant="primary" href="#about">Commencer</Button>
+        <Button variant="primary" href="#about">{t("start")}</Button>
       </div>
 
       <Button
-        href={`${import.meta.env.BASE_URL}#about`}
+        href={`#about`}
         className="absolute bottom-1/6 left-1/2 z-10 -translate-x-1/2 text-xs tracking-wide text-white/55 transition hover:text-white"
-        >Descendez pour voir</Button
+        >{t("scrollDown")}</Button
       >
 
       <div
@@ -165,13 +159,13 @@ const benefits: { title: string; description: string; logo: number }[] = [
         <div>
           <span
             class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
-            >À propos</span
+            >{t("index.about")}</span
           >
           <FadeInBlurWord
             as="h2"
             content={[
               {
-                text: "Exploitez une puissance pour écrire plus vite, mieux vous concentrer et gagner des heures.",
+                text: t("index.aboutText"),
               },
             ]}
             className="max-w-2xl font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl justify-start"
@@ -179,7 +173,7 @@ const benefits: { title: string; description: string; logo: number }[] = [
           />
         </div>
       </div>
-      <AboutCards client:load />
+      <AboutCards lang={lang} client:load />
     </section>
 
     <section
@@ -189,15 +183,15 @@ const benefits: { title: string; description: string; logo: number }[] = [
       <div class="mb-14 max-w-2xl">
         <span
           class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
-          >Différents cas</span
+          >{t("index.features")}</span
         >
         <FadeInBlurWord
           as="h2"
           className="font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl"
           content={[
-            { text: "Différents chemins à explorer, " },
+            { text: t("index.featuresText1") },
             {
-              text: "tous guidés par un compagnon silencieux.",
+              text: t("index.featuresText2"),
               style: { color: "rgb(133, 133, 133)" },
             },
           ]}
@@ -205,7 +199,7 @@ const benefits: { title: string; description: string; logo: number }[] = [
         />
       </div>
 
-      <FeatureTab client:load />
+      <FeatureTab lang={lang} client:load />
     </section>
 
     <section id="how-it-works">
@@ -215,15 +209,15 @@ const benefits: { title: string; description: string; logo: number }[] = [
         <div>
           <span
             class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
-            >Comment ça fonctionne ?</span
+            >{t("index.howitworks")}</span
           >
           <FadeInBlurWord
             as="h2"
             className="max-w-lg font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl"
             content={[
-              { text: "Un prompt, " },
+              { text: t("index.howitworksText1") },
               {
-                text: "trois étapes.",
+                text: t("index.howitworksText2"),
                 style: { color: "rgb(133, 133, 133)" },
               },
             ]}
@@ -231,7 +225,7 @@ const benefits: { title: string; description: string; logo: number }[] = [
           />
         </div>
 
-        <HowItWorksTab client:load />
+        <HowItWorksTab lang={lang} client:load />
       </div>
     </section>
 
@@ -242,13 +236,13 @@ const benefits: { title: string; description: string; logo: number }[] = [
       <div class="mb-14 max-w-3xl">
         <span
           class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
-          >Les avantages</span
+          >{t("index.benefits")}</span
         >
         <FadeInBlurWord
           as="h2"
           content={[
             {
-              text: "Une puissance invisible à vos côtés, qui vous apporte des avantages concrets au quotidien.",
+              text: t("index.benefitsText"),
             },
           ]}
           className="font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl"
@@ -266,17 +260,17 @@ const benefits: { title: string; description: string; logo: number }[] = [
       <div class="mb-12 text-center">
         <span
           class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
-          >FAQ</span
+          >{t("index.faq")}</span
         >
         <FadeInBlurWord
           as="h2"
-          content={[{ text: "Vos questions, nos réponses" }]}
+          content={[{ text: t("index.faqText") }]}
           className="font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl"
           client:load
         />
       </div>
 
-      <FAQs client:load />
+      <FAQs lang={lang} client:load />
     </section>
 
     <section
@@ -287,16 +281,15 @@ const benefits: { title: string; description: string; logo: number }[] = [
         <div>
           <span
             class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
-            >Soutenir le projet</span
+            >{t("index.support")}</span
           >
           <h2
             class="max-w-xl font-sans text-3xl font-normal leading-[1.1] text-white sm:text-4xl"
           >
-            Aidez-nous à entraîner nos modèles.
+            {t("index.supportText")}
           </h2>
           <p class="mt-5 max-w-lg text-sm leading-7 text-white/55 sm:text-base">
-            Vos dons contribuent au financement de GPU dans le cloud pour faire
-            avancer les entraînements de SparksLyse.
+            {t("index.supportSubText")}
           </p>
           <a
             href="https://fr.tipeee.com/sparkslyse-ai/"
@@ -304,21 +297,20 @@ const benefits: { title: string; description: string; logo: number }[] = [
             rel="noreferrer"
             class="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#e8ff9c] px-7 text-sm font-medium text-black transition hover:opacity-90"
           >
-            Soutenir sur Tipeee
+            {t("index.supportTipee")}
           </a>
           <p class="mt-4 text-xs text-white/40">
-            Stats relevées le 26 septembre 2026 : 25 € sur 25 €, 1 tipeur,
-            objectif atteint. Consultez Tipeee pour les chiffres à jour.
+            {t("index.supportTipeeText")}
           </p>
         </div>
 
         <div>
           <h3 class="mb-5 text-sm font-medium text-white/75">
-            Contreparties
+            {t("index.supportCounterparts")}
           </h3>
           <div class="grid gap-3 sm:grid-cols-2">
-            <Contrepartie price={2} text="Une carte Tonyx collector" />
-            <Contrepartie price={10} text="Un rôle unique sur notre serveur Discord" />
+            <Contrepartie price={2} text={t("index.supportCounterpartsText2euros")} />
+            <Contrepartie price={10} text={t("index.supportCounterpartsText10euros")} />
           </div>
           <h3 class="mb-3 mt-8 text-sm font-medium text-white/75">
             Tipeurs
@@ -342,7 +334,7 @@ const benefits: { title: string; description: string; logo: number }[] = [
       >
         <FadeInBlurWord
           as="h2"
-          content={[{ text: "Essayez maintenant" }]}
+          content={[{ text: t("tryNow") }]}
           className="font-sans text-4xl font-normal leading-none tracking-[-0.03em] text-white sm:text-5xl"
           client:load
         />
@@ -350,17 +342,17 @@ const benefits: { title: string; description: string; logo: number }[] = [
           as="p"
           content={[
             {
-              text: "Cette IA est actuellement proposée gratuitement, pourquoi ne pas la tester ?",
+              text: t("index.trynowText"),
             },
           ]}
           className="mt-5 max-w-xl text-sm leading-7 text-white/55 sm:text-base"
           client:load
         />
         <a
-          href={`${import.meta.env.BASE_URL}chat`}
+          href={`${import.meta.env.BASE_URL}${getLocalizedPath("chat", lang)}`}
           class="mt-8 w-26 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-7 text-sm font-medium text-black transition hover:opacity-90"
         >
-          Commencer
+          {t("start")}
         </a>
       </div>
     </section>
