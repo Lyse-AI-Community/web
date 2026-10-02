@@ -1,7 +1,20 @@
 ---
-import TrainingDashboard from "../components/TrainingDashboard";
-import Layout from "../layouts/Layout.astro";
-import FadeInBlurWord from "../components/animation/FadeInBlurWord";
+import TrainingDashboard from "../../components/TrainingDashboard";
+import Layout from "../../layouts/Layout.astro";
+import FadeInBlurWord from "../../components/animation/FadeInBlurWord";
+import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'fr' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
+
+const t = useTranslations(lang);
 ---
 
 <Layout

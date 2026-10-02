@@ -11,10 +11,12 @@ interface FadeInBlurWordProps {
   content: string | TextSegment[];
   as?: ElementType;
   className?: string;
+  id?: string
 }
 
 export default function FadeInBlurWord({
   content = "",
+  id,
   as: Component = "p",
   className = "",
 }: FadeInBlurWordProps) {
@@ -62,6 +64,7 @@ export default function FadeInBlurWord({
   return (
     <MotionComponent
       className={`flex flex-wrap gap-x-[0.25em] gap-y-1 ${className}`} // justify-center
+      id={id}
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"

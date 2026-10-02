@@ -3,7 +3,6 @@ import {
   RefreshCw, 
   Maximize2, 
   Minimize2, 
-  Terminal, 
   Clock,
   Zap, 
   AlertCircle,

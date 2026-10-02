@@ -1,15 +1,27 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
-import FadeInBlurWord from "@/components/animation/FadeInBlurWord";
+import { defaultLang, languages, useTranslations, getLocalizedPath, type Lang } from '../../../i18n/ui';
 
-const posts = await getCollection("blog");
+const { lang: langParam } = Astro.params;
+const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
+const t = useTranslations(lang);
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'fr' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const allPosts = await getCollection("blog");
+const posts = allPosts.filter((post) => post.id.startsWith(`${lang ?? defaultLang}/`));
 posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <Layout
-  title="Le Blog SparksLyse"
-  description="Les nouvelles, étapes et coulisses du projet SparksLyse."
+  title={t("blog.title")}
+  description={t("blog.desc")}
 >
   <main class="px-5 text-white sm:px-8">
     <section class="mx-auto w-full max-w-7xl pb-24 pt-16 sm:pb-32 sm:pt-24">
@@ -19,15 +31,15 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
             SparksLyse / Blog
           </p>
           <h1 class="max-w-3xl font-sans text-4xl font-normal leading-tight sm:text-5xl">
-            Le Blog de SparksLyse
+            {t("blog.title")}
           </h1>
           <p class="mt-5 max-w-2xl text-sm leading-7 text-white/55 sm:text-base">
-            Nouvelles, avancées et coulisses de la construction de SparksLyse.
+            {t("blog.desc")}
           </p>
         </div>
         <p class="text-sm text-white/45 lg:pb-2">
           <span class="text-2xl text-white">{posts.length}</span>
-          <span class="ml-2">{posts.length === 1 ? "article publié" : "articles publiés"}</span>
+          <span class="ml-2">{posts.length === 1 ? t("blog.published") : t("blog.publisheds")}</span>
         </p>
       </header>
 
@@ -37,8 +49,8 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
             {posts.map((post, index) => (
               <li>
                 <a
-                  href={`${import.meta.env.BASE_URL}blog/${post.id}/`}
-                  class="group grid gap-4 py-7 transition-colors hover:bg-white/[0.025] sm:gap-6 sm:py-9 md:grid-cols-[5rem_1fr_auto] md:items-start md:px-5"
+                  href={`${import.meta.env.BASE_URL}${lang}/blog/${post.id.replace(`${lang ?? defaultLang}/`, "")}/`}
+                  class="group grid gap-4 py-7 transition-colors hover:bg-white/2.5 sm:gap-6 sm:py-9 md:grid-cols-[5rem_1fr_auto] md:items-start md:px-5"
                 >
                   <span class="pt-1 font-mono text-xs text-white/35">
                     {String(index + 1).padStart(2, "0")}
@@ -56,7 +68,7 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
                       datetime={post.data.pubDate.toISOString()}
                       class="text-xs text-white/45 sm:text-sm"
                     >
-                      {post.data.pubDate.toLocaleDateString("fr-FR", {
+                      {post.data.pubDate.toLocaleDateString(lang, {
                         day: "numeric",
                         month: "long",
                         year: "numeric",

@@ -1,0 +1,28 @@
+{
+    "equipe.title": "Notre équipe | SparksLyse",
+    "equipe.desc": "Découvrez la communauté qui construit SparksLyse, une IA open source.",
+    "equipe.mainTitle": "Notre équipe, c’est une communauté qui construit ensemble.",
+    "equipe.mainDesc": "SparksLyse est un projet open source autour de modèles de langage développés en français. Le projet avance grâce aux contributions techniques, aux expérimentations et aux retours de sa communauté.",
+    "equipe.seeGithub": "Voir les projets GitHub",
+    "equipe.joinCommunity": "Rejoindre la communauté",
+    "equipe.allContrib": "Tous les contributeurs",
+    "equipe.imageCaption": "Un projet open source, construit et entraîné en communauté.",
+    "equipe.equipe": "Équipe principale",
+    "equipe.behind": "Les personnes derrière SparksLyse",
+    "equipe.publicMember": "Membres publics. Les rôles ci-dessous résument leurs contributions aux projets de l’équipe.",
+    "equipe.contrib": "Les contributions qui font avancer le projet",
+    "equipe.code": "Le site et les outils du projet sont accessibles publiquement pour être explorés et enrichis.",
+    "equipe.exploreCode": "Explorer le code",
+    "equipe.training": "Les expérimentations font progresser les modèles et leur apprentissage du français.",
+    "equipe.followTrain": "Suivre l’entraînement",
+    "equipe.community": "Les échanges et retours d’expérience aident à orienter les prochaines étapes de SparksLyse.",
+    "equipe.exchangeDiscord": "Échanger sur Discord",
+
+    "blog.title": "Le Blog SparksLyse",
+    "blog.desc": "Les nouvelles, étapes et coulisses du projet SparksLyse.",
+    "blog.noarticle": "Les premiers articles arrivent bientôt.",
+    "blog.publishedAt": "Publié le",
+    "blog.published": "article publié",
+    "blog.publisheds": "article publiés",
+    "blog.return": "Retourner au blog"
+  }

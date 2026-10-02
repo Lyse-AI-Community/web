@@ -1,7 +1,20 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 
 const cacheHours = 6;
+import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'fr' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
+
+const t = useTranslations(lang);
 ---
 
 <Layout
@@ -52,7 +65,7 @@ const cacheHours = 6;
             type="search"
             placeholder="Rechercher un compte"
             autocomplete="off"
-            class="min-h-11 min-w-0 border border-white/15 bg-white/[0.04] px-4 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#e8ff9c]/70 sm:w-64"
+            class="min-h-11 min-w-0 border border-white/15 bg-white/4 px-4 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#e8ff9c]/70 sm:w-64"
           />
           <button
             id="refresh-contributors"

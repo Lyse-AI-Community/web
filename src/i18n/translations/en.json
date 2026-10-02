@@ -1,0 +1,28 @@
+{
+    "equipe.title": "Our team | SparksLyse",
+    "equipe.desc": "Meet the community building SparksLyse, an open source AI.",
+    "equipe.mainTitle": "Our team is a community that builds together.",
+    "equipe.mainDesc": "SparksLyse is an open source project around language models developed in French. The project is moving forward thanks to technical contributions, experiments and feedback from its community.",
+    "equipe.seeGithub": "View GitHub projects",
+    "equipe.joinCommunity": "Join the community",
+    "equipe.allContrib": "All contributors",
+    "equipe.imageCaption": "An open source project, built and trained in the community.",
+    "equipe.equipe": "Main team",
+    "equipe.behind": "The people behind SparksLyse",
+    "equipe.publicMember": "Public members. The roles below summarize their contributions to team projects.",
+    "equipe.contrib": "Contributions that move the project forward",
+    "equipe.code": "The project site and tools are publicly accessible to be explored and enriched.",
+    "equipe.exploreCode": "Explore the code",
+    "equipe.training": "The experiments help the models and their learning of French progress.",
+    "equipe.followTrain": "Track the training",
+    "equipe.community": "Discussions and feedback help guide the next steps of SparksLyse.",
+    "equipe.exchangeDiscord": "Chat on Discord",
+
+    "blog.title": "The SparksLyse Blog",
+    "blog.desc": "News, steps and behind the scenes of the SparksLyse project.",
+    "blog.noarticle": "The first articles are coming soon.",
+    "blog.publishedAt": "Published on",
+    "blog.published": "article published",
+    "blog.publisheds": "article published",
+    "blog.return": "Return to blog"
+  }

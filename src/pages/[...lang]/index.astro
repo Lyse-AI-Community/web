@@ -1,20 +1,34 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import FeatureTab from "../components/FeatureTab";
-import HowItWorksTab from "../components/HowItWorksTab";
-import BenefitsCards from "../components/BenefitsCards";
-import FAQs from "../components/FAQs";
+import Layout from "../../layouts/Layout.astro";
+import FeatureTab from "../../components/FeatureTab";
+import HowItWorksTab from "../../components/HowItWorksTab";
+import BenefitsCards from "../../components/BenefitsCards";
+import FAQs from "../../components/FAQs";
 
-import FadeInBlurWord from "../components/animation/FadeInBlurWord";
+import FadeInBlurWord from "../../components/animation/FadeInBlurWord";
 
 // Images
-import headerImage from "../assets/images/header.png";
+import headerImage from "../../assets/images/header.png";
 
 import Image from "astro/components/Image.astro";
-import AboutCards from "../components/AboutCards";
+import AboutCards from "../../components/AboutCards";
 import Button from "@/components/ui/Button";
 import Contrepartie from "@/components/funding/Contrepartie";
 import Donateur from "@/components/funding/Donateur";
+
+import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'fr' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
+
+const t = useTranslations(lang);
 
 const benefits: { title: string; description: string; logo: number }[] = [
   {
