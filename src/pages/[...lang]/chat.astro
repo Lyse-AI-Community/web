@@ -2,13 +2,10 @@
 import Layout from "../../layouts/Layout.astro";
 import FadeInBlurWord from "../../components/animation/FadeInBlurWord";
 import "../../styles/chat.css";
-import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang } from '../../i18n/ui';
+import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang, staticPath } from '../../i18n/ui';
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: 'fr' } },
-    { params: { lang: 'en' } },
-  ];
+  return staticPath;
 }
 
 const { lang: langParam } = Astro.params;

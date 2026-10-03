@@ -1,17 +1,14 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
-import { defaultLang, languages, useTranslations, getLocalizedPath, type Lang } from '../../../i18n/ui';
+import { defaultLang, languages, useTranslations, getLocalizedPath, type Lang, staticPath } from '../../../i18n/ui';
 
 const { lang: langParam } = Astro.params;
 const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
 const t = useTranslations(lang);
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: 'fr' } },
-    { params: { lang: 'en' } },
-  ];
+  return staticPath;
 }
 
 const allPosts = await getCollection("blog");

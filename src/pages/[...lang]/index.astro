@@ -16,13 +16,10 @@ import Button from "@/components/ui/Button";
 import Contrepartie from "@/components/funding/Contrepartie";
 import Donateur from "@/components/funding/Donateur";
 
-import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang } from '../../i18n/ui';
+import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang, staticPath } from '../../i18n/ui';
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: 'fr' } },
-    { params: { lang: 'en' } },
-  ];
+  return staticPath;
 }
 
 const { lang: langParam } = Astro.params;

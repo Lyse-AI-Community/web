@@ -6,10 +6,11 @@ import {
   useTranslations,
   getLocalizedPath,
   type Lang,
+  staticPath,
 } from "../../i18n/ui";
 
 export function getStaticPaths() {
-  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+  return staticPath;
 }
 
 const { lang: langParam } = Astro.params;
