@@ -8,7 +8,7 @@ const lang = (langParam && langParam in languages ? langParam : defaultLang) as 
 const t = useTranslations(lang);
 
 export function getStaticPaths() {
-  return staticPath;
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
 }
 
 const allPosts = await getCollection("blog");

@@ -16,14 +16,22 @@ import Button from "@/components/ui/Button";
 import Contrepartie from "@/components/funding/Contrepartie";
 import Donateur from "@/components/funding/Donateur";
 
-import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang, staticPath } from '../../i18n/ui';
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  getLocalizedPath,
+  type Lang,
+} from "../../i18n/ui";
 
 export function getStaticPaths() {
-  return staticPath;
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
 }
 
 const { lang: langParam } = Astro.params;
-const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
 
 const t = useTranslations(lang);
 
@@ -61,10 +69,7 @@ const benefits: { title: string; description: string; logo: number }[] = [
 ];
 ---
 
-<Layout
-  title={t("index.title")}
-  description={t("index.desc")}
->
+<Layout title={t("index.title")} description={t("index.desc")}>
   <main>
     <header
       id="hero"
@@ -306,13 +311,20 @@ const benefits: { title: string; description: string; logo: number }[] = [
             {t("index.supportCounterparts")}
           </h3>
           <div class="grid gap-3 sm:grid-cols-2">
-            <Contrepartie price={2} text={t("index.supportCounterpartsText2euros")} />
-            <Contrepartie price={10} text={t("index.supportCounterpartsText10euros")} />
+            <Contrepartie
+              price={2}
+              text={t("index.supportCounterpartsText2euros")}
+            />
+            <Contrepartie
+              price={10}
+              text={t("index.supportCounterpartsText10euros")}
+            />
           </div>
-          <h3 class="mb-3 mt-8 text-sm font-medium text-white/75">
-            Tipeurs
-          </h3>
-          <Donateur username="Kyouki" link="https://fr.tipeee.com/user/kyouki" />
+          <h3 class="mb-3 mt-8 text-sm font-medium text-white/75">Tipeurs</h3>
+          <Donateur
+            username="Kyouki"
+            link="https://fr.tipeee.com/user/kyouki"
+          />
         </div>
       </div>
     </section>
