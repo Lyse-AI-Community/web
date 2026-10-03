@@ -6,10 +6,7 @@ export const languages = {
   en: 'English',
 } as const;
 
-export const staticPath = [
-    { params: { lang: 'fr' } },
-    { params: { lang: 'en' } },
-  ]
+export const listLanguages: Lang[] = ["fr", "en"]
 
 export type Lang = keyof typeof languages;
 export const defaultLang: Lang = 'fr';

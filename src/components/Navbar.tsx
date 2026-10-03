@@ -1,12 +1,34 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
-import { getLocalizedPath, useTranslations, type Lang } from "@/i18n/ui";
+import {
+  getLocalizedPath,
+  languages,
+  listLanguages,
+  useTranslations,
+  type Lang,
+} from "@/i18n/ui";
 
 export default function Navbar({ lang }: { lang: Lang }) {
   const t = useTranslations(lang);
   const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
   const closeMobileNavbar = () => setIsMobileNavbarOpen(false);
+  const [currentLang, setCurrentLang] = useState<string>("");
+  const [currentPath, setCurrentPath] = useState<string>("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const activeLang = window.location.pathname
+        .split("/")
+        .filter((part) => listLanguages.includes(part as Lang))[0];
+      setCurrentLang(activeLang);
+      const currentPath = window.location.pathname
+        .split("/")
+        .filter((part) => !listLanguages.includes(part as Lang))
+        .join("/");
+      setCurrentPath(`${currentPath.replace(import.meta.env.BASE_URL, "")}${window.location.hash}`);
+    }
+  }, []);
   const mobileNavbarVariants = {
     open: {
       opacity: 1,
@@ -42,7 +64,11 @@ export default function Navbar({ lang }: { lang: Lang }) {
             hover:opacity-80
           "
         >
-          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="logo" className="w-6 h-6" />
+          <img
+            src={`${import.meta.env.BASE_URL}logo.png`}
+            alt="logo"
+            className="w-6 h-6"
+          />
 
           <span
             className="
@@ -124,6 +150,21 @@ export default function Navbar({ lang }: { lang: Lang }) {
         >
           {t("start")}
         </Button>
+
+        <select
+          value={currentLang}
+          onChange={(e) => {
+            location.replace(
+              `${import.meta.env.BASE_URL}${getLocalizedPath(currentPath, e.currentTarget.value as Lang)}`,
+            );
+          }}
+        >
+          {listLanguages.map((lang) => (
+            <option key={lang} value={lang}>
+              {languages[lang]}
+            </option>
+          ))}
+        </select>
 
         <Button
           id="mobile-menu-button"
