@@ -63,6 +63,7 @@
     "chat.privacyNote": "Messages are sent to the SparksLyse API to generate a response and are stored only within this interface.",
     "chat.privacyPolicy": "View privacy policy",
     "chat.startMessage": "Hello 👋 I'm SparksLyse!",
+    "chat.resetConv": "Conversation reset.",
 
     "train.title": "Real-Time Training & Control Center - SparksLyse",
     "train.desc": "Monitor the live training of SparksLyse's open-source models, loss progression, and telemetry streams from our compute clusters.",

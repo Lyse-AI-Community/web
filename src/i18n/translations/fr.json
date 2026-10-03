@@ -63,6 +63,7 @@
     "chat.privacyNote": "Les messages sont transmis à l’API SparksLyse pour générer une réponse et ne sont conservés uniquement dans cette interface.",
     "chat.privacyPolicy": "Voir la politique de confidentialité",
     "chat.startMessage": "Bonjour 👋 Je suis SparksLyse !",
+    "chat.resetConv": "Conversation réinitialisée.",
 
     "train.title": "Centre de Contrôle & Entraînement en Temps Réel - SparksLyse",
     "train.desc": "Suivez en direct l'entraînement des modèles open-source de SparksLyse, l'évolution de la loss, et les flux de télémétrie de nos clusters de calcul.",
