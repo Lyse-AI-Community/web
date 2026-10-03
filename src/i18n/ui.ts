@@ -38,6 +38,5 @@ export function useTranslations(lang: Lang) {
 
 export function getLocalizedPath(path: string, lang: Lang) {
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  if (lang === defaultLang) return path;
   return `${lang}${cleanPath}`;
 }
