@@ -18,8 +18,8 @@ const t = useTranslations(lang);
 ---
 
 <Layout
-  title="Chat - SparksLyse"
-  description="Chatbot de démonstration SparksLyse"
+  title={t("chat.title")}
+  description={t("chat.desc")}
 >
   <main class="mx-auto flex w-full max-w-300 flex-col px-6 pt-24 md:px-10 md:pt-32 lg:px-16">
     <div class="mb-10">
@@ -29,7 +29,7 @@ const t = useTranslations(lang);
       <FadeInBlurWord
         as="h1"
         content={[
-          { text: "Discutez avec " },
+          { text: t("chat.mainTitle") },
           {
             text: "SparksLyse",
             style: { color: "rgb(133, 133, 133)" },
@@ -47,16 +47,16 @@ const t = useTranslations(lang);
     <div class="chat-composer">
       <form id="composer-form">
         <div class="composer-card">
-          <label class="sr-only" for="composer-input">Votre prompt</label>
+          <label class="sr-only" for="composer-input">{t("chat.promptLabel")}</label>
           <textarea
             id="composer-input"
             rows="1"
-            placeholder="Écrivez votre prompt (question)…"
+            placeholder={t("chat.promptPlaceholder")}
             autocomplete="off"></textarea>
 
           <div class="composer-toolbar">
             <div class="composer-tools">
-              <span class="tool-pill" title="À venir">
+              <span class="tool-pill" title={t("future")}>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -69,10 +69,10 @@ const t = useTranslations(lang);
                   <path d="M3 9h18"></path>
                 </svg>
 
-                <span>Bibliothèque</span>
+                <span>{t("chat.library")}</span>
               </span>
 
-              <button class="tool-icon" type="button" title="À venir" disabled>
+              <button class="tool-icon" type="button" title={t("future")} disabled>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -87,7 +87,7 @@ const t = useTranslations(lang);
                 </svg>
               </button>
 
-              <button class="tool-icon" type="button" title="À venir" disabled>
+              <button class="tool-icon" type="button" title={t("future")} disabled>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -102,7 +102,7 @@ const t = useTranslations(lang);
                 </svg>
               </button>
 
-              <button class="tool-icon" type="button" title="À venir" disabled>
+              <button class="tool-icon" type="button" title={t("future")} disabled>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -142,17 +142,17 @@ const t = useTranslations(lang);
       </form>
 
       <div class="composer-hint">
-        <span>Entrée pour envoyer · Maj+Entrée pour une nouvelle ligne</span>
+        <span>{t("chat.composerHint")}</span>
 
         <button class="clear-btn" id="clear-btn" type="button">
-          Effacer la conversation
+          {t("chat.removeConv")}
         </button>
       </div>
       <p class="privacy-note">
         <span class="privacy-note-content">
-          Les messages sont transmis à l’API SparksLyse pour générer une réponse et ne sont pas conservés dans cette interface.
+          {t("chat.privacyNote")}
         </span>
-        <a href={`${import.meta.env.BASE_URL}politique-confidentialite`}>Voir la politique de confidentialité</a>.
+        <a href={`${import.meta.env.BASE_URL}politique-confidentialite`}>{t("chat.privacyPolicy")}</a>.
       </p>
     </div>
   </div>

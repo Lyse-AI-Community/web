@@ -2,37 +2,43 @@
 import TrainingDashboard from "../../components/TrainingDashboard";
 import Layout from "../../layouts/Layout.astro";
 import FadeInBlurWord from "../../components/animation/FadeInBlurWord";
-import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang } from '../../i18n/ui';
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  getLocalizedPath,
+  type Lang,
+} from "../../i18n/ui";
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: 'fr' } },
-    { params: { lang: 'en' } },
-  ];
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
 }
 
 const { lang: langParam } = Astro.params;
-const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
 
 const t = useTranslations(lang);
 ---
 
-<Layout
-  title="Centre de Contrôle & Entraînement en Temps Réel - SparksLyse"
-  description="Suivez en direct l'entraînement des modèles open-source de SparksLyse, l'évolution de la loss, et les flux de télémétrie de nos clusters de calcul."
->
-  <main class="mx-auto flex w-full max-w-300 flex-col gap-16 px-6 py-24 md:px-10 md:py-32 lg:px-16">
+<Layout title={t("train.title")} description={t("train.title")}>
+  <main
+    class="mx-auto flex w-full max-w-300 flex-col gap-16 px-6 py-24 md:px-10 md:py-32 lg:px-16"
+  >
     <div class="max-w-4xl">
-      <span class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45">
-        Entraînement
+      <span
+        class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+      >
+        {t("comp_navbar.train")}
       </span>
       <FadeInBlurWord
         as="h1"
         content={[
-          { text: "Centre de Contrôle & " },
+          { text: t("train.mainTitle1") },
           {
-            text: "Entraînement en direct",
-            style: { color: "rgb(255, 255, 255)" },
+            text: t("train.mainTitle2"),
+            style: { color: "rgb(133, 133, 133)" },
           },
         ]}
         className="max-w-2xl font-sans text-4xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl justify-start"
@@ -42,7 +48,7 @@ const t = useTranslations(lang);
         as="p"
         content={[
           {
-            text: "Plongez au cœur de l'apprentissage de SparksLyse. Visualisez en temps réel l'avancement des poids, les courbes de perte et les métriques de nos modèles open-source.",
+            text: t("train.mainDesc"),
           },
         ]}
         className="mt-6 max-w-2xl text-sm leading-[1.4] text-white/60 sm:text-base"
@@ -51,18 +57,18 @@ const t = useTranslations(lang);
     </div>
 
     <div class="w-full relative z-10">
-      <TrainingDashboard
-        client:load 
-      />
+      <TrainingDashboard lang={lang} client:load />
     </div>
 
     <div class="max-w-3xl border-t border-white/10 pt-12">
-      <span class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45">
-        Transparence
+      <span
+        class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+      >
+        {t("train.trans")}
       </span>
-      <h2 class="text-xl font-normal text-white mb-4">Engagement Open-Source</h2>
+      <h2 class="text-xl font-normal text-white mb-4">{t("train.engage")}</h2>
       <p class="text-sm leading-relaxed text-white/50 max-w-2xl">
-        Chez SparksLyse, chaque étape d'entraînement est transparente. Ce tableau de bord se connecte directement à nos clusters de calcul pour vous offrir une visibilité totale sur l'évolution de nos modèles, fidèle à notre philosophie d'ouverture.
+        {t("train.text")}
       </p>
     </div>
   </main>

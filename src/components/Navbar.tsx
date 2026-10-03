@@ -111,7 +111,7 @@ export default function Navbar({ lang }: { lang: Lang }) {
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#blog", lang)}`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("blog", lang)}`}
           >
             {t("comp_navbar.blog")}
           </Button>
@@ -119,7 +119,7 @@ export default function Navbar({ lang }: { lang: Lang }) {
 
         <Button
           variant="button-red"
-          href={`${import.meta.env.BASE_URL}${getLocalizedPath("#chat", lang)}`}
+          href={`${import.meta.env.BASE_URL}${getLocalizedPath("chat", lang)}`}
           className="hidden xl:inline-flex"
         >
           {t("start")}
