@@ -101,6 +101,17 @@
     "comp_howitworks.howitworks3Title": "3 – Réponse",
     "comp_howitworks.howitworks3Desc": "Sa réflexion est devant vous",
 
+    "comp_navbar.ourteam": "Notre équipe",
+    "comp_navbar.train": "Entraînement",
+    "comp_navbar.blog": "Blog",
+
+    "footer.text": "L'IA intelligente open-source",
+    "footer.features": "Fonctionnalités",
+    "footer.legal": "Mentions légales",
+    "footer.confi": "Confidentialité",
+    "footer.cookies": "Cookies",
+    "footer.cgu": "CGU",
+
     "start": "Commencer",
     "scrollDown": "Descendez pour voir",
     "tryNow": "Essayez maintenant"

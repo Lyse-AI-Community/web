@@ -24,11 +24,17 @@ const ogName =
 
 const ogImage = `${siteUrl.origin}/og/${ogName}.png`;
 
+const { lang: langParam } = Astro.params;
+const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
+
+const t = useTranslations(lang);
+
 import "../styles/global.css";
 import "../styles/fonts.css";
 
 import noise from "../assets/images/noise.png";
 import Navbar from "../components/Navbar";
+import { defaultLang, getLocalizedPath, languages, useTranslations, type Lang } from "@/i18n/ui";
 ---
 
 <!doctype html>
@@ -70,7 +76,7 @@ import Navbar from "../components/Navbar";
   </head>
 
   <body class="min-h-screen overflow-x-hidden bg-[#0a0a0a] text-white">
-    <Navbar client:load />
+    <Navbar lang={lang} client:load />
     <slot />
 
     <footer
@@ -101,7 +107,7 @@ import Navbar from "../components/Navbar";
       >
         <div>
           <a
-            href={`${import.meta.env.BASE_URL}#hero`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#hero", lang)}`}
             class="text-base
               font-medium
               text-white
@@ -112,7 +118,7 @@ import Navbar from "../components/Navbar";
           </a>
 
           <p class="mt-2 text-sm text-white/45">
-            L'IA intelligente open-source
+            {t("footer.text")}
           </p>
         </div>
 
@@ -128,45 +134,45 @@ import Navbar from "../components/Navbar";
             sm:gap-x-6"
         >
           <a
-            href={`${import.meta.env.BASE_URL}#about`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#about", lang)}`}
             class="transition hover:text-white"
           >
-            A propos
+            {t("index.about")}
           </a>
 
           <a
-            href={`${import.meta.env.BASE_URL}#features`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#features", lang)}`}
             class="transition hover:text-white"
           >
-            Fonctionnalités
+            {t("footer.features")}
           </a>
 
           <a
-            href={`${import.meta.env.BASE_URL}mentions-legales`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("mentions-legales", lang)}`}
             class="transition hover:text-white"
           >
-            Mentions légales
+            {t("footer.legal")}
           </a>
 
           <a
-            href={`${import.meta.env.BASE_URL}politique-confidentialite`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("politique-confidentialite", lang)}`}
             class="transition hover:text-white"
           >
-            Confidentialité
+            {t("footer.confi")}
           </a>
 
           <a
-            href={`${import.meta.env.BASE_URL}politique-cookies`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("politique-cookies", lang)}`}
             class="transition hover:text-white"
           >
-            Cookies
+            {t("footer.cookies")}
           </a>
 
           <a
-            href={`${import.meta.env.BASE_URL}cgu`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("cgu", lang)}`}
             class="transition hover:text-white"
           >
-            CGU
+            {t("footer.cgu")}
           </a>
 
           <a
@@ -189,17 +195,17 @@ import Navbar from "../components/Navbar";
 
 
           <a
-            href={`${import.meta.env.BASE_URL}#faq`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#faq", lang)}`}
             class="transition hover:text-white"
           >
-            FAQ
+            {t("index.faq")}
           </a>
 
           <a
-            href={`${import.meta.env.BASE_URL}#soutien`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#soutien", lang)}`}
             class="transition hover:text-white"
           >
-            Soutenir le projet
+            {t("index.support")}
           </a>
         </nav>
       </div>

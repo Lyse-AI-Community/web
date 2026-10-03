@@ -101,6 +101,17 @@
     "comp_howitworks.howitworks3Title": "3 – Answer",
     "comp_howitworks.howitworks3Desc": "Its thinking is in front of you",
 
+    "comp_navbar.ourteam": "Our team",
+    "comp_navbar.train": "Training",
+    "comp_navbar.blog": "Blog",
+
+    "footer.text": "Smart open-source AI",
+    "footer.features": "Features",
+    "footer.legal": "Legal Notice",
+    "footer.confi": "Confidentiality",
+    "footer.cookies": "Cookies",
+    "footer.cgu": "Terms of Use",
+
     "start": "Start",
     "scrollDown": "Scroll down to see",
     "tryNow": "Try now"
