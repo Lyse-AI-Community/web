@@ -73,6 +73,37 @@
     "train.engage": "Open-Source Commitment",
     "train.text": "At SparksLyse, every stage of training is transparent. This dashboard connects directly to our compute clusters to provide full visibility into our models' evolution, staying true to our philosophy of openness.",
 
+    "contributors.title": "GitHub Contributors | SparksLyse",
+    "contributors.desc": "Everyone who contributes to SparksLyse's public repositories on GitHub.",
+    "contributors.sub": "Community",
+    "contributors.mainTitle": "Every contribution moves the project forward.",
+    "contributors.subTitle": "The people below have contributed to SparksLyse's public repositories.",
+    "contributors.seeGithub": "View GitHub repositories",
+    "contributors.loading": "Loading contributors...",
+    "contributors.cacheStatus": "Data is cached for {cacheHours} hour(s).",
+    "contributors.search": "Search for a GitHub account",
+    "contributors.connectionAPI": "Connecting to the GitHub API...",
+    "contributors.list": "List of contributors",
+
+    "legalCookies.title": "Cookie Policy - SparksLyse",
+    "legalCookies.desc": "SparksLyse Cookie Policy",
+    "legalCookies.sub": "Trackers",
+    "legalCookies.mainTitle": "Cookie Policy",
+    "legalCookies.lead": "No advertising, analytics, or personalization cookies or trackers are used on the site.",
+    "legalCookies.externalTitle": "External resources",
+    "legalCookies.externalText": "Fonts are still being loaded from fonts.gstatic.com.",
+    "legalCookies.apiChatTitle": "Chat API",
+    "legalCookies.apiChatText": "Requests to marvideo.fr support chat functionality and the display of training status. They do not involve the placement of advertising or analytics cookies.",
+
+    "confidentiality.title": "Privacy Policy - SparksLyse",
+    "confidentiality.desc": "SparksLyse Privacy Policy",
+
+    "legalInfo.title": "Legal notices - SparksLyse", 
+    "legalInfo.desc": "SparksLyse legal notices",
+
+    "cgu.title": "General Terms of Use - SparksLyse",
+    "cgu.desc": "General Terms of Use for the SparksLyse service",
+
     "comp_about.about1": "Time well spent",
     "comp_about.about1Text": "Automate your tasks and save time: your AI assistant transforms routine work in seconds, allowing you to focus on growth.",
     "comp_about.about2": "Words that flow",

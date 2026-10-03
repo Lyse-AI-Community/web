@@ -15,8 +15,19 @@ export const ui = {
 } as const;
 
 export function useTranslations(lang: Lang) {
-  return function t(key: keyof typeof ui[typeof defaultLang]) {
-    return ui[lang]?.[key] ?? ui[defaultLang][key];
+  return function t(
+    key: keyof typeof ui[typeof defaultLang],
+    params?: Record<string, string | number>
+  ): string {
+    let text: string = ui[lang]?.[key] ?? ui[defaultLang][key];
+
+    if (params) {
+      Object.entries(params).forEach(([paramKey, value]) => {
+        text = text.replace(`{${paramKey}}`, String(value));
+      });
+    }
+
+    return text;
   };
 }
 

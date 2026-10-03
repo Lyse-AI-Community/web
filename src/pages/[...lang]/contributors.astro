@@ -25,16 +25,15 @@ const t = useTranslations(lang);
     <section class="mx-auto w-full max-w-7xl pb-24 pt-16 sm:pb-32 sm:pt-24">
       <header class="border-b border-white/10 pb-10 sm:pb-14">
         <p class="mb-4 text-xs uppercase tracking-[0.18em] text-[#e8ff9c]">
-          Communauté / GitHub
+          {t("contributors.sub")} / GitHub
         </p>
         <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <h1 class="max-w-3xl text-4xl font-normal leading-tight sm:text-5xl">
-              Chaque contribution fait avancer le projet.
+              {t("contributors.mainTitle")}
             </h1>
             <p class="mt-5 max-w-2xl text-sm leading-7 text-white/55 sm:text-base">
-              Les personnes ci-dessous ont contribué aux dépôts publics de
-              SparksLyse.
+              {t("contributors.subTitle")}
             </p>
           </div>
           <a
@@ -43,7 +42,7 @@ const t = useTranslations(lang);
             rel="noreferrer"
             class="inline-flex min-h-11 w-fit items-center border border-white/20 px-4 text-sm text-white transition hover:border-[#e8ff9c]/60 hover:text-[#e8ff9c]"
           >
-            Voir les dépôts GitHub
+            {t("contributors.seeGithub")}
             <span class="ml-2" aria-hidden="true">↗</span>
           </a>
         </div>
@@ -52,18 +51,18 @@ const t = useTranslations(lang);
       <div class="flex flex-col gap-5 border-b border-white/10 py-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p id="contributor-count" class="text-sm text-white">
-            Chargement des contributeurs…
+            {t("contributors.loading")}
           </p>
           <p id="cache-status" class="mt-1 text-xs text-white/40" aria-live="polite">
-            Les données sont mises en cache pendant {cacheHours} heures.
+            {t("contributors.cacheStatus", { cacheHours: cacheHours })}
           </p>
         </div>
         <div class="flex flex-col gap-3 sm:flex-row">
-          <label class="sr-only" for="contributor-search">Rechercher un compte GitHub</label>
+          <label class="sr-only" for="contributor-search">{t("contributors.search")}</label>
           <input
             id="contributor-search"
             type="search"
-            placeholder="Rechercher un compte"
+            placeholder={t("contributors.search")}
             autocomplete="off"
             class="min-h-11 min-w-0 border border-white/15 bg-white/4 px-4 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#e8ff9c]/70 sm:w-64"
           />
@@ -72,13 +71,13 @@ const t = useTranslations(lang);
             type="button"
             class="min-h-11 border border-white/20 px-4 text-sm text-white transition hover:bg-white/10 disabled:cursor-wait disabled:opacity-50"
           >
-            Actualiser
+            {t("comp_training.refresh")}
           </button>
         </div>
       </div>
 
       <p id="contributors-message" class="py-8 text-sm text-white/60" role="status">
-        Connexion à l’API GitHub…
+        {t("contributors.connectionAPI")}
       </p>
       <div
         id="contributors-grid"
@@ -140,7 +139,7 @@ const t = useTranslations(lang);
     {
       login: "mianie-patooti",
       displayName: "Mianie Patooti",
-      avatarUrl: "https://cdn.discordapp.com/avatars/1079422776068280473/2799a54c23ecdc3f87372f37c2021d0c.webp?size=256",
+      avatarUrl: "https://cdn.discordapp.com/avatars/1079422776068280473/5d0cc34ff3641588f3ca78bd832ff84b.webp?size=256",
       profileUrl: null,
       contributions: 0,
       repositories: 0,

@@ -73,6 +73,30 @@
     "train.engage": "Engagement Open-Source",
     "train.text": "Chez SparksLyse, chaque étape d'entraînement est transparente. Ce tableau de bord se connecte directement à nos clusters de calcul pour vous offrir une visibilité totale sur l'évolution de nos modèles, fidèle à notre philosophie d'ouverture.",
 
+    "contributors.title": "Contributeurs GitHub | SparksLyse",
+    "contributors.desc": "Toutes les personnes qui contribuent aux dépôts publics de SparksLyse sur GitHub.",
+    "contributors.sub": "Communauté",
+    "contributors.mainTitle": "Chaque contribution fait avancer le projet.",
+    "contributors.subTitle": "Les personnes ci-dessous ont contribué aux dépôts publics de SparksLyse.",
+    "contributors.seeGithub": "Voir les dépôts GitHub",
+    "contributors.loading": "Chargement des contributeurs...",
+    "contributors.cacheStatus": "Les données sont mises en cache pendant {cacheHours} heure(s).",
+    "contributors.search": "Rechercher un compte GitHub",
+    "contributors.connectionAPI": "Connexion à l’API GitHub...",
+    "contributors.list": "Liste des contributeurs",
+
+    "legalCookies.title": "Politique de cookies - SparksLyse",
+    "legalCookies.desc": "Politique de cookies de SparksLyse",
+
+    "confidentiality.title": "Politique de confidentialité - SparksLyse",
+    "confidentiality.desc": "Politique de confidentialité de SparksLyse",
+
+    "legalInfo.title": "Mentions légales - SparksLyse",
+    "legalInfo.desc": "Mentions légales de SparksLyse",
+
+    "cgu.title": "Conditions générales d’utilisation - SparksLyse",
+    "cgu.desc": "Conditions générales d’utilisation du service SparksLyse",
+
     "comp_about.about1": "Le temps s'est déroulé",
     "comp_about.about1Text": "Automatisez vos tâches et gagnez du temps : votre assistant IA transforme les tâches routinières en quelques secondes pour que vous puissiez vous concentrer sur votre croissance.",
     "comp_about.about2": "Des mots qui coulent",

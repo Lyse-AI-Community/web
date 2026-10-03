@@ -1,35 +1,43 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang } from '../../i18n/ui';
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  getLocalizedPath,
+  type Lang,
+} from "../../i18n/ui";
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: 'fr' } },
-    { params: { lang: 'en' } },
-  ];
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
 }
 
 const { lang: langParam } = Astro.params;
-const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
 
 const t = useTranslations(lang);
 ---
 
-<Layout title="Politique de cookies - SparksLyse" description="Politique de cookies de SparksLyse">
+<Layout title={t("legalCookies.title")} description={t("legalCookies.desc")}>
   <main class="legal-page">
     <article class="legal-content">
-      <p class="legal-eyebrow">Traceurs</p>
-      <h1>Politique de cookies</h1>
-      <p class="legal-lead">Aucun cookie ou traceur publicitaire, analytique ou de personnalisation n’est sur le site.</p>
+      <p class="legal-eyebrow">Trackers</p>
+      <h1>Cookie Policy</h1>
+      <p class="legal-lead">
+        No advertising, analytics, or personalization cookies or trackers are
+        present on the site.
+      </p>
+      <h2>External resources</h2>
+      <p>Fonts are still loaded from fonts.gstatic.com.</p>
 
-      <h2>État actuel</h2>
-      <p>Le site ne met donc pas en place de bandeau de consentement, car aucun traceur non nécessaire n’est actuellement chargé.</p>
-
-      <h2>Ressources externes</h2>
-      <p>Des polices sont encore chargées depuis fonts.gstatic.com.</p>
-
-      <h2>API du chat</h2>
-      <p>Les requêtes vers marvideo.fr servent au fonctionnement du chat et à l’affichage du statut d’entraînement. Elles ne constituent pas, un dépôt de cookie publicitaire ou analytique.</p>
+      <h2>Chat API</h2>
+      <p>
+        Requests to marvideo.fr support the operation of the chat and the
+        display of training status. They do not involve the placement of
+        advertising or analytics cookies.
+      </p>
     </article>
   </main>
 </Layout>

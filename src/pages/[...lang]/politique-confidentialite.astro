@@ -1,57 +1,108 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { languages, defaultLang, useTranslations, getLocalizedPath, type Lang } from '../../i18n/ui';
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  type Lang,
+} from "../../i18n/ui";
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: 'fr' } },
-    { params: { lang: 'en' } },
-  ];
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
 }
 
 const { lang: langParam } = Astro.params;
-const lang = (langParam && langParam in languages ? langParam : defaultLang) as Lang;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
 
 const t = useTranslations(lang);
 ---
 
-<Layout title="Politique de confidentialité - SparksLyse" description="Politique de confidentialité de SparksLyse">
+<Layout
+  title={t("confidentiality.title")}
+  description={t("confidentiality.desc")}
+>
   <main class="legal-page">
     <article class="legal-content">
-      <p class="legal-eyebrow">Données personnelles</p>
-      <h1>Politique de confidentialité</h1>
-      <p class="legal-lead">Cette politique décrit les traitements de SparksLyse.</p>
+      <p class="legal-eyebrow">Personal data</p>
+      <h1>Privacy Policy</h1>
+      <p class="legal-lead">
+        This policy describes SparksLyse's data processing activities.
+      </p>
 
-      <h2>Responsable du traitement</h2>
-      <p>Le responsable du traitement est l’éditeur du site :</p>
-      <p><strong>[NOM ET PRÉNOM À COMPLÉTER]</strong><br />[ADRESSE À COMPLÉTER]<br />[EMAIL D’EXERCICE DES DROITS À COMPLÉTER]</p>
+      <h2>Data Controller</h2>
+      <p>The data controller is the site publisher:</p>
+      <p>
+        <strong>[FULL NAME TO BE COMPLETED]</strong><br />[ADDRESS TO BE
+        COMPLETED]<br />[EMAIL FOR EXERCISING RIGHTS TO BE COMPLETED]
+      </p>
 
-      <h2>Traitement 1 : messages adressés au chat</h2>
+      <h2>Processing 1: messages sent via the chat</h2>
       <dl>
-        <dt>Données</dt><dd>Le texte du prompt et l’historique de la conversation envoyé avec la requête.</dd>
-        <dt>Finalité</dt><dd>Générer une réponse de l’assistant SparksLyse à la demande de l’utilisateur.</dd>
-        <dt>Base légale</dt><dd>Consentement de l’utilisateur lorsqu’il saisit et envoie volontairement un prompt.</dd>
-        <dt>Destinataires</dt><dd>L’éditeur du site et l’opérateur de l’API hébergée sur marvideo.fr Marvideo hébergée en France via Infomaniak.</dd>
-        <dt>Conservation</dt><dd>L’interface ne conserve pas l’historique après rechargement et ne prévoit pas de stockage persistant. La conservation dans les journaux ou systèmes de l’API n'est pas effectué.</dd>
-        <dt>Transfert hors UE</dt><dd>L’API est hébergée en France.</dd>
+        <dt>Data</dt><dd>
+          The prompt text and the conversation history sent with the request.
+        </dd>
+        <dt>Purpose</dt><dd>
+          To generate a response from the SparksLyse assistant in reply to the
+          user's request.
+        </dd>
+        <dt>Legal basis</dt><dd>
+          User consent given when voluntarily entering and sending a prompt.
+        </dd>
+        <dt>Recipients</dt><dd>
+          The site publisher and the operator of the API hosted on marvideo.fr
+          (hosted in France via Infomaniak).
+        </dd>
+        <dt>Retention</dt><dd>
+          The interface does not retain history after reloading and does not
+          provide for persistent storage. No data is stored in the API logs or
+          systems.
+        </dd>
+        <dt>Transfer outside the EU</dt><dd>The API is hosted in France.</dd>
       </dl>
-      <p>Ne saisissez pas de données sensibles, de secrets, de mots de passe ou d’informations concernant des tiers dans le chat.</p>
+      <p>
+        Do not enter sensitive data, secrets, passwords, or information
+        regarding third parties in the chat.
+      </p>
 
-      <h2>Traitement 2 : requête d’état d’entraînement</h2>
+      <h2>Processing 2: training status request</h2>
       <dl>
-        <dt>Données</dt><dd>Aucune donnée n'est consignées par le serveur lors de la requête vers marvideo.fr.</dd>
-        <dt>Finalité</dt><dd>Afficher l’état d’entraînement présenté sur la page dédiée en image PNG.</dd>
-        <dt>Base légale</dt><dd>Intérêt légitime lié au fonctionnement et à la sécurité du site, sous réserve de confirmation.</dd>
+        <dt>Data</dt><dd>
+          No data is logged by the server during the request to marvideo.fr.
+        </dd>
+        <dt>Purpose</dt><dd>
+          To display the training status shown on the dedicated page as a PNG
+          image.
+        </dd>
+        <dt>Legal basis</dt><dd>
+          Legitimate interest related to the site's operation and security,
+          subject to confirmation.
+        </dd>
       </dl>
 
-      <h2>Polices et ressources externes</h2>
-      <p>Le site charge certaines polices depuis fonts.gstatic.com. Ces requêtes peuvent transmettre des données techniques, notamment l’adresse IP, à ces fournisseurs.</p>
+      <h2>Fonts and external resources</h2>
+      <p>
+        The site loads certain fonts from fonts.gstatic.com. These requests may
+        transmit technical data, such as your IP address, to these providers.
+      </p>
 
-      <h2>Vos droits</h2>
-      <p>Vous pouvez demander l’accès, la rectification, l’effacement, la limitation du traitement, vous opposer à un traitement et, lorsque les conditions sont réunies, demander la portabilité de vos données. Adressez votre demande à <strong>[EMAIL À COMPLÉTER]</strong>. Vous pouvez également saisir la CNIL.</p>
+      <h2>Your rights</h2>
+      <p>
+        You may request access to, rectification of, erasure of, or restriction
+        of the processing of your data, object to processing, and—where
+        applicable—request data portability. Please send your request to <strong
+          >[EMAIL TO BE COMPLETED]</strong
+        >. You may also lodge a complaint with the CNIL.
+      </p>
 
-      <h2>Réclamation</h2>
-      <p>Une réclamation peut être adressée à la Commission nationale de l’informatique et des libertés (CNIL), notamment via <a href="https://www.cnil.fr/">cnil.fr</a>.</p>
+      <h2>Complaints</h2>
+      <p>
+        Complaints may be addressed to the Commission nationale de
+        l’informatique et des libertés (CNIL), notably via <a
+          href="https://www.cnil.fr/">cnil.fr</a
+        >.
+      </p>
     </article>
   </main>
 </Layout>
