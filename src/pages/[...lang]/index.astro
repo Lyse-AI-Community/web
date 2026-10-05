@@ -1,0 +1,369 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import FeatureTab from "../../components/FeatureTab";
+import HowItWorksTab from "../../components/HowItWorksTab";
+import BenefitsCards from "../../components/BenefitsCards";
+import FAQs from "../../components/FAQs";
+
+import FadeInBlurWord from "../../components/animation/FadeInBlurWord";
+
+// Images
+import headerImage from "../../assets/images/header.png";
+
+import Image from "astro/components/Image.astro";
+import AboutCards from "../../components/AboutCards";
+import Button from "@/components/ui/Button";
+import Contrepartie from "@/components/funding/Contrepartie";
+import Donateur from "@/components/funding/Donateur";
+
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  getLocalizedPath,
+  type Lang,
+} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
+
+const t = useTranslations(lang);
+
+const benefits: { title: string; description: string; logo: number }[] = [
+  {
+    title: t("comp_benefits.benefits1"),
+    description: t("comp_benefits.benefits1Text"),
+    logo: 0,
+  },
+  {
+    title: t("comp_benefits.benefits2"),
+    description: t("comp_benefits.benefits2Text"),
+    logo: 1,
+  },
+  {
+    title: t("comp_benefits.benefits3"),
+    description: t("comp_benefits.benefits3Text"),
+    logo: 2,
+  },
+  {
+    title: t("comp_benefits.benefits4"),
+    description: t("comp_benefits.benefits4Text"),
+    logo: 3,
+  },
+  {
+    title: t("comp_benefits.benefits5"),
+    description: t("comp_benefits.benefits5Text"),
+    logo: 4,
+  },
+  {
+    title: t("comp_benefits.benefits6"),
+    description: t("comp_benefits.benefits6Text"),
+    logo: 5,
+  },
+];
+---
+
+<Layout title={t("index.title")} description={t("index.desc")}>
+  <main>
+    <header
+      id="hero"
+      class="relative flex min-h-screen w-full flex-col items-center justify-center gap-20 overflow-hidden px-4 pb-16 md:pb-24"
+    >
+      <div
+        class="relative z-10 flex w-full max-w-137.5 flex-col items-center gap-8 text-center"
+      >
+        <div class="flex w-full flex-col items-center gap-4">
+          <FadeInBlurWord
+            as="h2"
+            content={[{ text: t("index.warning") }]}
+            className="font-[Monospace] bg-[#0a0a0a]/20 border border-[#0a0a0a]/40 rounded-2xl p-4 justify-center text-[10px] font-normal leading-[1.2] tracking-[-0.03em] text-white sm:text-[18px] lg:text-[16px] text-center"
+            client:load
+          />
+          <FadeInBlurWord
+            as="h1"
+            content={[{ text: t("index.desc") }]}
+            className="font-sans justify-center text-[40px] rounded-2xl p-4 font-normal leading-[1.2] tracking-[-0.03em] text-white sm:text-[48px] lg:text-[56px] text-center"
+            client:load
+          />
+          <FadeInBlurWord
+            as="p"
+            content={[
+              {
+                text: t("index.mainDesc"),
+              },
+            ]}
+            className="text-center text-sm leading-[1.3] text-white/90 sm:text-base"
+            client:load
+          />
+        </div>
+
+        <Button variant="primary" href="#about">{t("start")}</Button>
+      </div>
+
+      <Button
+        href={`#about`}
+        className="absolute bottom-1/6 left-1/2 z-10 -translate-x-1/2 text-xs tracking-wide text-white/55 transition hover:text-white"
+        >{t("scrollDown")}</Button
+      >
+
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(232,255,156,0.07),transparent_38%)]"
+      >
+      </div>
+      <div>
+        <div
+          class="z-1 flex-none w-full h-full absolute top-0 left-0 overflow-hidden"
+          style="will-change: transform; opacity: 1; transform: scale(1.05)"
+        >
+          <div
+            style="
+				position: absolute;
+				border-radius: inherit;
+				corner-shape: inherit;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				"
+          >
+            <Image
+              decoding="async"
+              width="2912"
+              height="1632"
+              src={headerImage}
+              aria-hidden="true"
+              alt=""
+              style="
+					width: 100%;
+					height: 100%;
+					border-radius: inherit;
+					corner-shape: inherit;
+					object-position: center;
+					object-fit: cover;
+				"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section
+      id="about"
+      class="mx-auto flex w-full max-w-300 flex-col gap-16 px-6 py-24 md:px-10 md:py-32 lg:px-16"
+    >
+      <div class="grid gap-8 lg:grid-cols-[1.05fr_1fr] lg:items-end">
+        <div>
+          <span
+            class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+            >{t("index.about")}</span
+          >
+          <FadeInBlurWord
+            as="h2"
+            content={[
+              {
+                text: t("index.aboutText"),
+              },
+            ]}
+            className="max-w-2xl font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl justify-start"
+            client:load
+          />
+        </div>
+      </div>
+      <AboutCards lang={lang} client:load />
+    </section>
+
+    <section
+      id="features"
+      class="mx-auto w-full max-w-300 px-6 py-24 md:px-10 md:py-32 lg:px-16"
+    >
+      <div class="mb-14 max-w-2xl">
+        <span
+          class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+          >{t("index.features")}</span
+        >
+        <FadeInBlurWord
+          as="h2"
+          className="font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl"
+          content={[
+            { text: t("index.featuresText1") },
+            {
+              text: t("index.featuresText2"),
+              style: { color: "rgb(133, 133, 133)" },
+            },
+          ]}
+          client:load
+        />
+      </div>
+
+      <FeatureTab lang={lang} client:load />
+    </section>
+
+    <section id="how-it-works">
+      <div
+        class="mx-auto grid w-full max-w-300 gap-16 px-6 py-24 md:px-10 md:py-32 lg:px-16"
+      >
+        <div>
+          <span
+            class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+            >{t("index.howitworks")}</span
+          >
+          <FadeInBlurWord
+            as="h2"
+            className="max-w-lg font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl"
+            content={[
+              { text: t("index.howitworksText1") },
+              {
+                text: t("index.howitworksText2"),
+                style: { color: "rgb(133, 133, 133)" },
+              },
+            ]}
+            client:load
+          />
+        </div>
+
+        <HowItWorksTab lang={lang} client:load />
+      </div>
+    </section>
+
+    <section
+      id="benefits"
+      class="mx-auto w-full max-w-300 px-6 py-24 md:px-10 md:py-32 lg:px-16"
+    >
+      <div class="mb-14 max-w-3xl">
+        <span
+          class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+          >{t("index.benefits")}</span
+        >
+        <FadeInBlurWord
+          as="h2"
+          content={[
+            {
+              text: t("index.benefitsText"),
+            },
+          ]}
+          className="font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl"
+          client:load
+        />
+      </div>
+
+      <BenefitsCards benefits={benefits} client:load />
+    </section>
+
+    <section
+      id="faq"
+      class="mx-auto w-full max-w-250 px-6 py-24 md:px-10 md:py-32"
+    >
+      <div class="mb-12 text-center">
+        <span
+          class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+          >{t("index.faq")}</span
+        >
+        <FadeInBlurWord
+          as="h2"
+          content={[{ text: t("index.faqText") }]}
+          className="font-sans text-3xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl"
+          client:load
+        />
+      </div>
+
+      <FAQs lang={lang} client:load />
+    </section>
+
+    <section
+      id="soutien"
+      class="mx-auto w-full max-w-300 px-6 py-24 md:px-10 md:py-32 lg:px-16"
+    >
+      <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+        <div>
+          <span
+            class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+            >{t("index.support")}</span
+          >
+          <h2
+            class="max-w-xl font-sans text-3xl font-normal leading-[1.1] text-white sm:text-4xl"
+          >
+            {t("index.supportText")}
+          </h2>
+          <p class="mt-5 max-w-lg text-sm leading-7 text-white/55 sm:text-base">
+            {t("index.supportSubText")}
+          </p>
+          <a
+            href="https://fr.tipeee.com/sparkslyse-ai/"
+            target="_blank"
+            rel="noreferrer"
+            class="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#e8ff9c] px-7 text-sm font-medium text-black transition hover:opacity-90"
+          >
+            {t("index.supportTipee")}
+          </a>
+          <p class="mt-4 text-xs text-white/40">
+            {t("index.supportTipeeText")}
+          </p>
+        </div>
+
+        <div>
+          <h3 class="mb-5 text-sm font-medium text-white/75">
+            {t("index.supportCounterparts")}
+          </h3>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <Contrepartie
+              price={2}
+              text={t("index.supportCounterpartsText2euros")}
+            />
+            <Contrepartie
+              price={10}
+              text={t("index.supportCounterpartsText10euros")}
+            />
+          </div>
+          <h3 class="mb-3 mt-8 text-sm font-medium text-white/75">Tipeurs</h3>
+          <Donateur
+            username="Kyouki"
+            link="https://fr.tipeee.com/user/kyouki"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section id="final-cta" class="px-6 pb-24 md:px-10 md:pb-32 lg:px-16">
+      <div
+        class="mx-auto flex w-full max-w-300 flex-col border border-white/10 bg-white/2.5 px-6 py-20 md:px-10 md:py-28"
+        style=`
+          border-radius: inherit;
+          corner-shape: inherit;
+          background-image: url(${headerImage.src});
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: cover;
+          border: 0;`
+      >
+        <FadeInBlurWord
+          as="h2"
+          content={[{ text: t("tryNow") }]}
+          className="font-sans text-4xl font-normal leading-none tracking-[-0.03em] text-white sm:text-5xl"
+          client:load
+        />
+        <FadeInBlurWord
+          as="p"
+          content={[
+            {
+              text: t("index.trynowText"),
+            },
+          ]}
+          className="mt-5 max-w-xl text-sm leading-7 text-white/55 sm:text-base"
+          client:load
+        />
+        <a
+          href={`${import.meta.env.BASE_URL}${getLocalizedPath("chat", lang)}`}
+          class="mt-8 w-26 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-7 text-sm font-medium text-black transition hover:opacity-90"
+        >
+          {t("start")}
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>

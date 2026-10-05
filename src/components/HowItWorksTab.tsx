@@ -4,8 +4,10 @@ import type { ImageMetadata } from "astro";
 import howItWorksImage1 from "../assets/images/howitworks1.jpg";
 import howItWorksImage2 from "../assets/images/feature1.jpg";
 import howItWorksImage3 from "../assets/images/howitworks3.jpg";
+import { useTranslations, type Lang } from "@/i18n/ui";
 
-export default function HowItWorksTab() {
+export default function HowItWorksTab({ lang }: { lang: Lang }) {
+  const t = useTranslations(lang);
   const howitworks: {
     title: string;
     description: string;
@@ -13,20 +15,20 @@ export default function HowItWorksTab() {
     image: ImageMetadata;
   }[] = [
     {
-      title: "1 – Le prompt",
-      description: "Ecrivez votre prompt (question)",
+      title: t("comp_howitworks.howitworks1Title"),
+      description: t("comp_howitworks.howitworks1Desc"),
       logo: 0,
       image: howItWorksImage1,
     },
     {
-      title: "2 – Réflexion",
-      description: "L'IA réfléchit pour vous répondre",
+      title: t("comp_howitworks.howitworks2Title"),
+      description: t("comp_howitworks.howitworks2Desc"),
       logo: 1,
       image: howItWorksImage2,
     },
     {
-      title: "3 – Réponse",
-      description: "Sa réflexion est devant vous",
+      title: t("comp_howitworks.howitworks3Title"),
+      description: t("comp_howitworks.howitworks3Desc"),
       logo: 2,
       image: howItWorksImage3,
     },

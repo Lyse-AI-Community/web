@@ -1,0 +1,69 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  type Lang,
+} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
+
+const t = useTranslations(lang);
+---
+
+<Layout
+  title={t("legalInfo.title")}
+  description={t("legalInfo.desc")}
+>
+  <main class="legal-page">
+    <article class="legal-content">
+      <p class="legal-eyebrow">Legal Information</p>
+      <h1>Legal Notice</h1>
+      <p class="legal-lead">
+        The information below must be completed by the publisher before the site
+        goes live.
+      </p>
+
+      <h2>Site Publisher</h2>
+      <dl>
+        <dt>Full Name</dt><dd>[TO BE COMPLETED]</dd>
+        <dt>Address</dt><dd>[TO BE COMPLETED]</dd>
+        <dt>Contact Email</dt><dd>[TO BE COMPLETED]</dd>
+        <dt>Telephone</dt><dd>[TO BE COMPLETED OR "not disclosed"]</dd>
+        <dt>Publication Director</dt><dd>[TO BE COMPLETED]</dd>
+      </dl>
+      <p>
+        The site is currently declared as being published by an individual. If
+        the status changes to a professional activity, this section must be
+        replaced with the corresponding legal information.
+      </p>
+
+      <h2>Hosting</h2>
+      <p>
+        The site is hosted via GitHub Pages. The host's legal details and
+        telephone number must be verified against the hosting terms and
+        conditions and filled in here:
+      </p>
+      <dl>
+        <dt>Host</dt><dd>GitHub, Inc. [TO BE CONFIRMED]</dd>
+        <dt>Address</dt><dd>[TO BE COMPLETED]</dd>
+        <dt>Telephone</dt><dd>[TO BE COMPLETED]</dd>
+      </dl>
+
+      <h2>Intellectual Property</h2>
+      <p>
+        Site content—including text, interfaces, logos, and graphic elements—may
+        only be published if the publisher holds the necessary rights. Any
+        unauthorized reuse may result in liability for the person responsible.
+      </p>
+    </article>
+  </main>
+</Layout>

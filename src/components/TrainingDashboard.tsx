@@ -3,7 +3,6 @@ import {
   RefreshCw, 
   Maximize2, 
   Minimize2, 
-  Terminal, 
   Clock,
   Zap, 
   AlertCircle,
@@ -14,6 +13,7 @@ import {
   Hourglass
 } from "lucide-react";
 import Button from "./ui/Button";
+import { useTranslations, type Lang } from "@/i18n/ui";
 
 interface TrainingStatus {
   timestamp: number;
@@ -25,7 +25,8 @@ interface TrainingStatus {
   eta: string;
 }
 
-export default function TrainingDashboard() {
+export default function TrainingDashboard({ lang } : { lang: Lang }) {
+  const t = useTranslations(lang);
   const containerRef = useRef<HTMLDivElement>(null);
   const [timestamp, setTimestamp] = useState<number>(Date.now());
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -161,11 +162,11 @@ export default function TrainingDashboard() {
             <h2 className="text-xl font-normal text-white flex items-center gap-3">
               SparksLyse
               <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-white/80 border border-white/20">
-                {statusData ? statusData.type : (dataError ? "Erreur API" : "Actif")}
+                {statusData ? statusData.type : (dataError ? t("apiError") : t("active"))}
               </span>
             </h2>
             <p className="text-sm text-white/45 mt-1">
-              Télémétrie en direct
+              {t("comp_training.telemetry")}
             </p>
           </div>
         </div>
@@ -195,7 +196,7 @@ export default function TrainingDashboard() {
                 ? "bg-white/20 border-white/40 text-white" 
                 : "bg-white/5 border-white/10 text-white/60 hover:text-white"
             }`}
-            title={isPaused ? "Reprendre" : "Pause"}
+            title={isPaused ? t("comp_training.resume"): t("comp_training.pause")}
           >
             {isPaused ? <Play className="w-4 h-4 fill-current" /> : <Pause className="w-4 h-4 fill-current" />}
           </button>
@@ -208,7 +209,7 @@ export default function TrainingDashboard() {
             className="min-h-10! px-5 bg-white text-black border-0 hover:opacity-90 font-medium"
           >
             <RefreshCw className={`w-3.5 h-3.5 mr-2 ${isRefreshing || apiLoading ? "animate-spin" : ""}`} />
-            Actualiser
+            {t("comp_training.refresh")}
           </Button>
 
           <button
@@ -223,42 +224,42 @@ export default function TrainingDashboard() {
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           <MetricBox 
-            label="Loss (Perte)" 
+            label={t("comp_training.loss")}
             value={statusData ? statusData.loss.toString() : "—"} 
             icon={<TrendingDown className="w-4 h-4" />}
-            sub={statusData ? `Phase: ${statusData.type}` : (dataError ? "Erreur de chargement API" : "En attente...")}
+            sub={statusData ? `${t("comp_training.lossSub")}: ${statusData.type}` : (dataError ? t("apiError") : t("onHold"))}
           />
           <MetricBox 
-            label="Progression" 
+            label={t("comp_training.progression")}
             value={statusData ? statusData.completion : "—"} 
             icon={<Activity className="w-4 h-4" />}
-            sub={statusData ? statusData.epoch : (dataError ? "Vérifiez CORS / Serveur" : "En attente...")}
+            sub={statusData ? statusData.epoch : (dataError ? t("apiError") : t("onHold"))}
           />
           <MetricBox 
-            label="Vitesse" 
+            label={t("comp_training.speed")}
             value={statusData ? `${statusData.tps} t/s` : "—"} 
             icon={<Zap className="w-4 h-4" />}
-            sub="Tokens par seconde"
+            sub={t("comp_training.speedSub")}
           />
           <MetricBox 
-            label="Estimation" 
+            label={t("comp_training.estimation")} 
             value={statusData ? statusData.eta : "—"} 
             icon={<Hourglass className="w-4 h-4" />}
-            sub="Temps restant estimé"
+            sub={t("comp_training.estimationSub")}
           />
         </div>
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between px-2">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-white/45 font-medium">Évolution de la Perte (Loss) — Vue Récente (50 derniers points)</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-white/45 font-medium">{t("comp_training.stats.title")}</span>
             <div className="flex items-center gap-3">
-              <span className="text-[10px] text-white/40">{historyData.length} points totaux</span>
+              <span className="text-[10px] text-white/40">{historyData.length} {t("comp_training.stats.allPoints")}</span>
               <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] uppercase tracking-widest text-white/60">
-                Live Feed • {new Date(timestamp).toLocaleTimeString()}
+                {t("comp_training.stats.liveFeed")} • {new Date(timestamp).toLocaleTimeString(lang)}
               </div>
               {isRefreshing && (
                 <div className="px-3 py-1 rounded-full bg-white text-black text-[9px] uppercase tracking-widest font-bold">
-                  Sync
+                  {t("comp_training.stats.sync")}
                 </div>
               )}
             </div>
@@ -267,15 +268,15 @@ export default function TrainingDashboard() {
             {apiLoading && losses.length === 0 ? (
               <div className="flex flex-col items-center text-center gap-4 py-20">
                 <RefreshCw className="w-6 h-6 text-white/40 animate-spin" />
-                <p className="text-xs text-white/40">Chargement des données...</p>
+                <p className="text-xs text-white/40">{t("comp_training.stats.loading")}</p>
               </div>
             ) : dataError || losses.length === 0 ? (
               <div className="flex flex-col items-center text-center gap-4 py-20 px-4 max-w-md">
                 <AlertCircle className="w-8 h-8 text-amber-400/80" />
                 <div>
-                  <p className="text-sm font-medium text-white mb-1">Impossible de charger les données</p>
+                  <p className="text-sm font-medium text-white mb-1">{t("comp_training.stats.error")}</p>
                   <p className="text-xs text-white/50 leading-relaxed">
-                    Le serveur distant n'a pas renvoyé de données ou bloque la requête.
+                    {t("comp_training.stats.errorSub")}
                   </p>
                 </div>
               </div>
@@ -310,9 +311,9 @@ export default function TrainingDashboard() {
                   )}
                 </svg>
                 <div className="w-full flex items-center justify-between text-[11px] text-white/50 mt-6 px-2 font-mono">
-                  <span>Min (récent): {minLoss.toFixed(4)}</span>
-                  <span className="text-white/80 font-medium">Actuel: {losses[losses.length - 1]?.toFixed(4) || "—"}</span>
-                  <span>Max (récent): {maxLoss.toFixed(4)}</span>
+                  <span>{t("comp_training.stats.min")}: {minLoss.toFixed(4)}</span>
+                  <span className="text-white/80 font-medium">{t("comp_training.stats.actual")}: {losses[losses.length - 1]?.toFixed(4) || "—"}</span>
+                  <span>{t("comp_training.stats.max")}: {maxLoss.toFixed(4)}</span>
                 </div>
               </div>
             )}

@@ -1,0 +1,75 @@
+---
+import TrainingDashboard from "../../components/TrainingDashboard";
+import Layout from "../../layouts/Layout.astro";
+import FadeInBlurWord from "../../components/animation/FadeInBlurWord";
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  getLocalizedPath,
+  type Lang,
+} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
+
+const t = useTranslations(lang);
+---
+
+<Layout title={t("train.title")} description={t("train.title")}>
+  <main
+    class="mx-auto flex w-full max-w-300 flex-col gap-16 px-6 py-24 md:px-10 md:py-32 lg:px-16"
+  >
+    <div class="max-w-4xl">
+      <span
+        class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+      >
+        {t("comp_navbar.train")}
+      </span>
+      <FadeInBlurWord
+        as="h1"
+        content={[
+          { text: t("train.mainTitle1") },
+          {
+            text: t("train.mainTitle2"),
+            style: { color: "rgb(133, 133, 133)" },
+          },
+        ]}
+        className="max-w-2xl font-sans text-4xl font-normal leading-[1.1] tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl justify-start"
+        client:load
+      />
+      <FadeInBlurWord
+        as="p"
+        content={[
+          {
+            text: t("train.mainDesc"),
+          },
+        ]}
+        className="mt-6 max-w-2xl text-sm leading-[1.4] text-white/60 sm:text-base"
+        client:load
+      />
+    </div>
+
+    <div class="w-full relative z-10">
+      <TrainingDashboard lang={lang} client:load />
+    </div>
+
+    <div class="max-w-3xl border-t border-white/10 pt-12">
+      <span
+        class="mb-5 block text-xs uppercase tracking-[0.18em] text-white/45"
+      >
+        {t("train.trans")}
+      </span>
+      <h2 class="text-xl font-normal text-white mb-4">{t("train.engage")}</h2>
+      <p class="text-sm leading-relaxed text-white/50 max-w-2xl">
+        {t("train.text")}
+      </p>
+    </div>
+  </main>
+</Layout>

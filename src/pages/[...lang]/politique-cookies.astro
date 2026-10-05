@@ -1,0 +1,42 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  type Lang,
+} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
+
+const t = useTranslations(lang);
+---
+
+<Layout title={t("legalCookies.title")} description={t("legalCookies.desc")}>
+  <main class="legal-page">
+    <article class="legal-content">
+      <p class="legal-eyebrow">Trackers</p>
+      <h1>Cookie Policy</h1>
+      <p class="legal-lead">
+        No advertising, analytics, or personalization cookies or trackers are
+        present on the site.
+      </p>
+      <h2>External resources</h2>
+      <p>Fonts are still loaded from fonts.gstatic.com.</p>
+
+      <h2>Chat API</h2>
+      <p>
+        Requests to marvideo.fr support the operation of the chat and the
+        display of training status. They do not involve the placement of
+        advertising or analytics cookies.
+      </p>
+    </article>
+  </main>
+</Layout>

@@ -1,0 +1,108 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  type Lang,
+} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
+
+const t = useTranslations(lang);
+---
+
+<Layout
+  title={t("confidentiality.title")}
+  description={t("confidentiality.desc")}
+>
+  <main class="legal-page">
+    <article class="legal-content">
+      <p class="legal-eyebrow">Personal data</p>
+      <h1>Privacy Policy</h1>
+      <p class="legal-lead">
+        This policy describes SparksLyse's data processing activities.
+      </p>
+
+      <h2>Data Controller</h2>
+      <p>The data controller is the site publisher:</p>
+      <p>
+        <strong>[FULL NAME TO BE COMPLETED]</strong><br />[ADDRESS TO BE
+        COMPLETED]<br />[EMAIL FOR EXERCISING RIGHTS TO BE COMPLETED]
+      </p>
+
+      <h2>Processing 1: messages sent via the chat</h2>
+      <dl>
+        <dt>Data</dt><dd>
+          The prompt text and the conversation history sent with the request.
+        </dd>
+        <dt>Purpose</dt><dd>
+          To generate a response from the SparksLyse assistant in reply to the
+          user's request.
+        </dd>
+        <dt>Legal basis</dt><dd>
+          User consent given when voluntarily entering and sending a prompt.
+        </dd>
+        <dt>Recipients</dt><dd>
+          The site publisher and the operator of the API hosted on marvideo.fr
+          (hosted in France via Infomaniak).
+        </dd>
+        <dt>Retention</dt><dd>
+          The interface does not retain history after reloading and does not
+          provide for persistent storage. No data is stored in the API logs or
+          systems.
+        </dd>
+        <dt>Transfer outside the EU</dt><dd>The API is hosted in France.</dd>
+      </dl>
+      <p>
+        Do not enter sensitive data, secrets, passwords, or information
+        regarding third parties in the chat.
+      </p>
+
+      <h2>Processing 2: training status request</h2>
+      <dl>
+        <dt>Data</dt><dd>
+          No data is logged by the server during the request to marvideo.fr.
+        </dd>
+        <dt>Purpose</dt><dd>
+          To display the training status shown on the dedicated page as a PNG
+          image.
+        </dd>
+        <dt>Legal basis</dt><dd>
+          Legitimate interest related to the site's operation and security,
+          subject to confirmation.
+        </dd>
+      </dl>
+
+      <h2>Fonts and external resources</h2>
+      <p>
+        The site loads certain fonts from fonts.gstatic.com. These requests may
+        transmit technical data, such as your IP address, to these providers.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        You may request access to, rectification of, erasure of, or restriction
+        of the processing of your data, object to processing, and—where
+        applicable—request data portability. Please send your request to <strong
+          >[EMAIL TO BE COMPLETED]</strong
+        >. You may also lodge a complaint with the CNIL.
+      </p>
+
+      <h2>Complaints</h2>
+      <p>
+        Complaints may be addressed to the Commission nationale de
+        l’informatique et des libertés (CNIL), notably via <a
+          href="https://www.cnil.fr/">cnil.fr</a
+        >.
+      </p>
+    </article>
+  </main>
+</Layout>

@@ -1,0 +1,437 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const cacheHours = 6;
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  type Lang,
+} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
+
+const t = useTranslations(lang);
+---
+
+<Layout
+  title="Contributeurs GitHub | SparksLyse"
+  description="Toutes les personnes qui contribuent aux dépôts publics de SparksLyse sur GitHub."
+>
+  <main class="px-5 text-white sm:px-8">
+    <section class="mx-auto w-full max-w-7xl pb-24 pt-16 sm:pb-32 sm:pt-24">
+      <header class="border-b border-white/10 pb-10 sm:pb-14">
+        <p class="mb-4 text-xs uppercase tracking-[0.18em] text-[#e8ff9c]">
+          {t("contributors.sub")} / GitHub
+        </p>
+        <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <h1
+              class="max-w-3xl text-4xl font-normal leading-tight sm:text-5xl"
+            >
+              {t("contributors.mainTitle")}
+            </h1>
+            <p
+              class="mt-5 max-w-2xl text-sm leading-7 text-white/55 sm:text-base"
+            >
+              {t("contributors.subTitle")}
+            </p>
+          </div>
+          <a
+            href="https://github.com/SparksLyse-Community"
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex min-h-11 w-fit items-center border border-white/20 px-4 text-sm text-white transition hover:border-[#e8ff9c]/60 hover:text-[#e8ff9c]"
+          >
+            {t("contributors.seeGithub")}
+            <span class="ml-2" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </header>
+
+      <div
+        class="flex flex-col gap-5 border-b border-white/10 py-6 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div>
+          <p id="contributor-count" class="text-sm text-white">
+            {t("contributors.loading")}
+          </p>
+          <p
+            id="cache-status"
+            class="mt-1 text-xs text-white/40"
+            aria-live="polite"
+          >
+            {t("contributors.cacheStatus", { cacheHours: cacheHours })}
+          </p>
+        </div>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <label class="sr-only" for="contributor-search"
+            >{t("contributors.search")}</label
+          >
+          <input
+            id="contributor-search"
+            type="search"
+            placeholder={t("contributors.search")}
+            autocomplete="off"
+            class="min-h-11 min-w-0 border border-white/15 bg-white/4 px-4 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#e8ff9c]/70 sm:w-64"
+          />
+          <button
+            id="refresh-contributors"
+            type="button"
+            class="min-h-11 border border-white/20 px-4 text-sm text-white transition hover:bg-white/10 disabled:cursor-wait disabled:opacity-50"
+          >
+            {t("comp_training.refresh")}
+          </button>
+        </div>
+      </div>
+
+      <p
+        id="contributors-message"
+        class="py-8 text-sm text-white/60"
+        role="status"
+      >
+        {t("contributors.connectionAPI")}
+      </p>
+      <div
+        id="contributors-grid"
+        class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        aria-label="Liste des contributeurs"
+      >
+      </div>
+    </section>
+  </main>
+  <div
+    id="sparkslyse-config"
+    data-lang={lang}
+    data-contrib={t("contributors.contrib")}
+    data-not-found={t("contributors.notFound")}
+    data-no-match={t("contributors.noMatch")}
+    data-contributions={t("contributors.contribution")}
+    data-repo={t("contributors.repo")}
+    data-cached-data={t("contributors.cachedData")}
+    data-refresh={t("contributors.refresh")}
+    data-updated-on={t("contributors.updatedOn")}
+    data-update={t("contributors.update")}
+    data-connection={t("contributors.connectionAPI")}
+    data-github-unavailable={t("contributors.githubUnavailable")}
+    data-retry={t("contributors.retry")}
+    data-impossible={t("contributors.impossible")}
+  >
+  </div>
+</Layout>
+
+<script>
+  const configEl = document.getElementById("sparkslyse-config");
+  if (configEl) {
+    const config = configEl.dataset;
+    type GitHubRepository = {
+      name: string;
+      full_name: string;
+    };
+
+    type GitHubContributor = {
+      login: string;
+      avatar_url: string;
+      html_url: string;
+      contributions: number;
+    };
+
+    type Contributor = {
+      login: string;
+      displayName?: string;
+      avatarUrl: string;
+      profileUrl: string | null;
+      contributions: number;
+      repositories: number;
+      role?: string;
+    };
+
+    type CachedContributors = {
+      fetchedAt: number;
+      contributors: Contributor[];
+    };
+
+    const organization = "SparksLyse-Community";
+    const apiBase = "https://api.github.com";
+    const cacheKey = "sparkslyse-github-contributors-v1";
+    const cacheDuration = 6 * 60 * 60 * 1000;
+    const countElement =
+      document.querySelector<HTMLElement>("#contributor-count");
+    const statusElement = document.querySelector<HTMLElement>("#cache-status");
+    const messageElement = document.querySelector<HTMLElement>(
+      "#contributors-message",
+    );
+    const gridElement =
+      document.querySelector<HTMLElement>("#contributors-grid");
+    const searchElement = document.querySelector<HTMLInputElement>(
+      "#contributor-search",
+    );
+    const refreshButton = document.querySelector<HTMLButtonElement>(
+      "#refresh-contributors",
+    );
+    let contributors: Contributor[] = [];
+    const manualContributors: Contributor[] = [
+      {
+        login: "Juste1dev",
+        displayName: "Tonyx",
+        avatarUrl: "https://avatars.githubusercontent.com/u/257786487?v=4",
+        profileUrl: "https://github.com/Juste1dev",
+        contributions: 0,
+        repositories: 0,
+      },
+      {
+        login: "mianie-patooti",
+        displayName: "Mianie Patooti",
+        avatarUrl:
+          "https://cdn.discordapp.com/avatars/1079422776068280473/5d0cc34ff3641588f3ca78bd832ff84b.webp?size=256",
+        profileUrl: null,
+        contributions: 0,
+        repositories: 0,
+        role: "Artiste du projet",
+      },
+    ];
+
+    function readCache(): CachedContributors | null {
+      try {
+        const value = localStorage.getItem(cacheKey);
+        if (!value) return null;
+        const parsed = JSON.parse(value) as CachedContributors;
+        return Array.isArray(parsed.contributors) &&
+          typeof parsed.fetchedAt === "number"
+          ? parsed
+          : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function saveCache(value: CachedContributors) {
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify(value));
+      } catch {
+        statusElement!.textContent = "Cache unavailable in this browser.";
+      }
+    }
+
+    async function fetchAllPages<T>(firstUrl: string): Promise<T[]> {
+      const items: T[] = [];
+      let url: string | null = firstUrl;
+
+      while (url) {
+        const response: Response = await fetch(url, {
+          headers: { Accept: "application/vnd.github+json" },
+        });
+        if (!response.ok) {
+          throw new Error(
+            `GitHub responded with the status ${response.status}.`,
+          );
+        }
+
+        items.push(...((await response.json()) as T[]));
+        const nextLink = response.headers
+          .get("Link")
+          ?.match(/<([^>]+)>;\s*rel="next"/);
+        url = nextLink?.[1] ?? null;
+      }
+
+      return items;
+    }
+
+    async function fetchContributors(): Promise<Contributor[]> {
+      const repositories = await fetchAllPages<GitHubRepository>(
+        `${apiBase}/orgs/${organization}/repos?type=public&per_page=100`,
+      );
+      const totals = new Map<string, Contributor>();
+      let nextRepository = 0;
+
+      async function collectRepositoryContributors() {
+        while (nextRepository < repositories.length) {
+          const repository = repositories[nextRepository++];
+          const contributorsUrl = `${apiBase}/repos/${organization}/${encodeURIComponent(repository.name)}/contributors?per_page=100`;
+          const repositoryContributors =
+            await fetchAllPages<GitHubContributor>(contributorsUrl);
+
+          for (const contributor of repositoryContributors) {
+            if (!contributor.login) continue;
+            const existing = totals.get(contributor.login);
+            if (existing) {
+              existing.contributions += contributor.contributions;
+              existing.repositories += 1;
+            } else {
+              totals.set(contributor.login, {
+                login: contributor.login,
+                avatarUrl: contributor.avatar_url,
+                profileUrl: contributor.html_url,
+                contributions: contributor.contributions,
+                repositories: 1,
+              });
+            }
+          }
+        }
+      }
+
+      await Promise.all(
+        Array.from({ length: Math.min(4, repositories.length) }, () =>
+          collectRepositoryContributors(),
+        ),
+      );
+
+      return [...totals.values()].sort(
+        (left, right) => right.contributions - left.contributions,
+      );
+    }
+
+    function renderContributors() {
+      const query = searchElement!.value.trim().toLowerCase();
+      const filtered = contributors.filter((contributor) =>
+        `${contributor.displayName ?? contributor.login} ${contributor.login}`
+          .toLowerCase()
+          .includes(query),
+      );
+      gridElement!.replaceChildren();
+      countElement!.textContent = `${contributors.length} ${config.contrib || "contributor(s)"}`;
+      messageElement!.hidden = filtered.length > 0;
+      messageElement!.textContent =
+        contributors.length === 0
+          ? config.notFound || "No contributors were found."
+          : config.noMatch || "No account matches this search.";
+
+      for (const [index, contributor] of filtered.entries()) {
+        const card = document.createElement("article");
+        card.className =
+          "flex min-w-0 items-center gap-4 border border-white/10 bg-white/[0.025] p-4 transition hover:border-white/25";
+        card.style.animationDelay = `${Math.min(index, 12) * 35}ms`;
+
+        const avatar = document.createElement("img");
+        avatar.src = contributor.avatarUrl;
+        avatar.alt = "";
+        avatar.loading = "lazy";
+        avatar.width = 48;
+        avatar.height = 48;
+        avatar.className =
+          "h-12 w-12 shrink-0 rounded-full bg-white/10 object-cover";
+
+        const details = document.createElement("div");
+        details.className = "min-w-0 flex-1";
+
+        const profile = contributor.profileUrl
+          ? document.createElement("a")
+          : document.createElement("span");
+        if (profile instanceof HTMLAnchorElement) {
+          profile.href = contributor.profileUrl!;
+          profile.target = "_blank";
+          profile.rel = "noreferrer";
+          profile.className =
+            "block truncate text-sm font-medium text-white transition hover:text-[#e8ff9c]";
+        } else {
+          profile.className = "block truncate text-sm font-medium text-white";
+        }
+        profile.textContent = contributor.displayName ?? contributor.login;
+
+        const contributionCount = document.createElement("p");
+        contributionCount.className = "mt-1 text-xs text-white/45";
+        contributionCount.textContent =
+          contributor.role ??
+          `${contributor.contributions.toLocaleString("fr-FR")} ${config.contributions} · ${contributor.repositories} ${config.repo}`;
+
+        details.append(profile, contributionCount);
+        card.append(avatar, details);
+        gridElement!.append(card);
+      }
+    }
+
+    function useCache(cached: CachedContributors, stale: boolean) {
+      const merged = new Map(
+        cached.contributors.map((contributor) => [
+          contributor.login.toLowerCase(),
+          contributor,
+        ]),
+      );
+
+      for (const manualContributor of manualContributors) {
+        const key = manualContributor.login.toLowerCase();
+        const existing = merged.get(key);
+        merged.set(
+          key,
+          existing
+            ? {
+                ...existing,
+                ...manualContributor,
+                contributions: existing.contributions,
+                repositories: existing.repositories,
+              }
+            : manualContributor,
+        );
+      }
+
+      contributors = [...merged.values()].sort(
+        (left, right) => right.contributions - left.contributions,
+      );
+      renderContributors();
+      const refreshedAt = new Date(cached.fetchedAt).toLocaleString(
+        config.lang || "en",
+        {
+          dateStyle: "medium",
+          timeStyle: "short",
+        },
+      );
+      statusElement!.textContent = stale
+        ? `${config.cachedData} ${refreshedAt} · ${config.refresh}`
+        : `${config.updatedOn} ${refreshedAt}`;
+    }
+
+    async function loadContributors(forceRefresh = false) {
+      const cached = readCache();
+      const cacheIsFresh =
+        cached && Date.now() - cached.fetchedAt < cacheDuration;
+
+      if (!forceRefresh && cacheIsFresh) {
+        useCache(cached, false);
+        messageElement!.hidden = true;
+        return;
+      }
+
+      if (cached) useCache(cached, true);
+      messageElement!.hidden = false;
+      messageElement!.textContent = cached
+        ? config.update || "Updating GitHub data..."
+        : config.connection || "Connecting to the GitHub API...";
+      refreshButton!.disabled = true;
+
+      try {
+        contributors = await fetchContributors();
+        const updatedCache = { fetchedAt: Date.now(), contributors };
+        saveCache(updatedCache);
+        useCache(updatedCache, false);
+        messageElement!.hidden = contributors.length > 0;
+      } catch (error) {
+        if (cached) {
+          useCache(cached, true);
+          messageElement!.hidden = true;
+          statusElement!.textContent += config.githubUnavailable;
+        } else {
+          contributors = manualContributors;
+          renderContributors();
+          messageElement!.hidden = false;
+          messageElement!.textContent =
+            error instanceof Error
+              ? `${error.message} ${config.retry || "Try again in a few moments."}`
+              : config.impossible || "Unable to load GitHub contributors.";
+        }
+      } finally {
+        refreshButton!.disabled = false;
+      }
+    }
+
+    searchElement!.addEventListener("input", renderContributors);
+    refreshButton!.addEventListener("click", () => loadContributors(true));
+    loadContributors();
+  }
+</script>

@@ -1,10 +1,34 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
+import {
+  getLocalizedPath,
+  languages,
+  listLanguages,
+  useTranslations,
+  type Lang,
+} from "@/i18n/ui";
 
-export default function Navbar() {
+export default function Navbar({ lang }: { lang: Lang }) {
+  const t = useTranslations(lang);
   const [isMobileNavbarOpen, setIsMobileNavbarOpen] = useState(false);
   const closeMobileNavbar = () => setIsMobileNavbarOpen(false);
+  const [currentLang, setCurrentLang] = useState<string>("");
+  const [currentPath, setCurrentPath] = useState<string>("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const activeLang = window.location.pathname
+        .split("/")
+        .filter((part) => listLanguages.includes(part as Lang))[0];
+      setCurrentLang(activeLang);
+      const currentPath = window.location.pathname
+        .split("/")
+        .filter((part) => !listLanguages.includes(part as Lang))
+        .join("/");
+      setCurrentPath(`${currentPath.replace(import.meta.env.BASE_URL, "")}${window.location.hash}`);
+    }
+  }, []);
   const mobileNavbarVariants = {
     open: {
       opacity: 1,
@@ -29,7 +53,7 @@ export default function Navbar() {
         "
       >
         <a
-          href={`${import.meta.env.BASE_URL}#hero`}
+          href={`${import.meta.env.BASE_URL}${getLocalizedPath("#hero", lang)}`}
           className="
             flex
             shrink-0
@@ -40,7 +64,11 @@ export default function Navbar() {
             hover:opacity-80
           "
         >
-          <img src={`${import.meta.env.BASE_URL}logo.png`} className="w-6 h-6" />
+          <img
+            src={`${import.meta.env.BASE_URL}logo.png`}
+            alt="logo"
+            className="w-6 h-6"
+          />
 
           <span
             className="
@@ -66,62 +94,77 @@ export default function Navbar() {
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}#about`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#about", lang)}`}
             rel="noreferrer"
           >
-            A propos
+            {t("index.about")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}equipe`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("equipe", lang)}`}
             rel="noreferrer"
           >
-            Notre équipe
+            {t("comp_navbar.ourteam")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}train`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("train", lang)}`}
             rel="noreferrer"
           >
-            Entraînement
+            {t("comp_navbar.train")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}#faq`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#faq", lang)}`}
           >
-            FAQ
+            {t("index.faq")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}#soutien`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#soutien", lang)}`}
           >
-            Soutenir le projet
+            {t("index.support")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}blog`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("blog", lang)}`}
           >
-            Blog
+            {t("comp_navbar.blog")}
           </Button>
         </div>
 
         <Button
           variant="button-red"
-          href={`${import.meta.env.BASE_URL}chat`}
+          href={`${import.meta.env.BASE_URL}${getLocalizedPath("chat", lang)}`}
           className="hidden xl:inline-flex"
         >
-          Commencer
+          {t("start")}
         </Button>
+
+        <select
+          value={currentLang}
+          onChange={(e) => {
+            location.replace(
+              `${import.meta.env.BASE_URL}${getLocalizedPath(currentPath, e.currentTarget.value as Lang)}`,
+            );
+          }}
+        >
+          {listLanguages.map((lang) => (
+            <option key={lang} value={lang}>
+              {languages[lang]}
+            </option>
+          ))}
+        </select>
 
         <Button
           id="mobile-menu-button"
@@ -171,69 +214,69 @@ export default function Navbar() {
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}#about`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#about", lang)}`}
             rel="noreferrer"
             className="rounded-lg"
             onClick={closeMobileNavbar}
           >
-            A propos
+            {t("index.about")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}equipe`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("about", lang)}`}
             rel="noreferrer"
             className="rounded-lg"
             onClick={closeMobileNavbar}
           >
-            Notre équipe
+            {t("comp_navbar.ourteam")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}train`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("train", lang)}`}
             rel="noreferrer"
             className="rounded-lg"
             onClick={closeMobileNavbar}
           >
-            Entraînement
+            {t("comp_navbar.train")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}#faq`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#faq", lang)}`}
             className="rounded-lg"
           >
-            FAQ
+            {t("index.faq")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}#soutien`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("#soutien", lang)}`}
             className="rounded-lg"
           >
-            Soutenir le projet
+            {t("index.support")}
           </Button>
 
           <Button
             variant="link"
             size="lg"
-            href={`${import.meta.env.BASE_URL}blog`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("blog", lang)}`}
             className="rounded-lg"
           >
-            Blog
+            {t("comp_navbar.blog")}
           </Button>
 
           <Button
             variant="button-red"
             className="bg-[#dba0a0]/10! hover:bg-[#dba0a0]/20!"
-            href={`${import.meta.env.BASE_URL}chat`}
+            href={`${import.meta.env.BASE_URL}${getLocalizedPath("chat", lang)}`}
           >
-            Commencer
+            {t("start")}
           </Button>
         </div>
       </motion.div>

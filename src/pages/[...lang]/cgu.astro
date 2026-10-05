@@ -1,0 +1,92 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  languages,
+  defaultLang,
+  useTranslations,
+  getLocalizedPath,
+  type Lang,
+} from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "fr" } }, { params: { lang: "en" } }];
+}
+
+const { lang: langParam } = Astro.params;
+const lang = (
+  langParam && langParam in languages ? langParam : defaultLang
+) as Lang;
+
+const t = useTranslations(lang);
+---
+
+<Layout
+  title={t("cgu.title")}
+  description={t("cgu.desc")}
+>
+  <main class="legal-page">
+    <article class="legal-content">
+      <p class="legal-eyebrow">Usage Rules</p>
+      <h1>General Terms of Use</h1>
+      <p class="legal-lead">
+        These terms govern free access to the SparksLyse presentation site and
+        demonstration chat.
+      </p>
+
+      <h2>Purpose and Access</h2>
+      <p>
+        SparksLyse showcases an open-source artificial intelligence and offers a
+        chat feature accessible without creating an account. Access may be
+        interrupted for maintenance, security reasons, or service updates.
+      </p>
+
+      <h2>Prohibited Use</h2>
+      <p>
+        You may not use the service to circumvent the law, infringe upon the
+        rights of others, transmit secrets or sensitive data, attack systems,
+        bypass technical limitations, or intentionally generate illicit content.
+      </p>
+
+      <h2>Generated Responses</h2>
+      <p>
+        AI-generated responses may be incomplete, incorrect, or inappropriate.
+        They do not constitute professional advice and should be verified before
+        making any decisions or reusing the information.
+      </p>
+
+      <h2>Prompts and Data</h2>
+      <p>
+        Messages sent to the chat are transmitted to the API specified in the <a
+          href={`${import.meta.env.BASE_URL}${getLocalizedPath("politique-confidentialite", lang)}`}
+          >privacy policy</a
+        >. Users must not enter sensitive data or data concerning third parties
+        without authorization.
+      </p>
+
+      <h2>Intellectual Property</h2>
+      <p>
+        Rights regarding the site, its interface, and its content belong to
+        their respective owners. The terms applicable to the open-source code
+        are those of the license published in the repository. Users remain
+        responsible for rights associated with the content they input or reuse.
+      </p>
+    </article>
+
+    <h2>Liability</h2>
+    <p>
+      The publisher does not guarantee the continuous availability of the
+      service or the accuracy of the generated responses. This limitation does
+      not deprive users of mandatory rights provided by law.
+    </p>
+
+    <h2>Modifications and Governing Law</h2>
+    <p>
+      These terms may be updated to reflect changes to the service or
+      regulations. They are governed by French law, subject to applicable
+      mandatory provisions.
+    </p>
+
+    <h2>Contact</h2>
+    <p>For any questions: <strong>sparkslyse@marvideo.fr</strong>.</p>
+  </main>
+</Layout>
